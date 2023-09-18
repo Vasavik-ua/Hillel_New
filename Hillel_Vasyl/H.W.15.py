@@ -10,10 +10,10 @@ def check_isdigit(value):  # check the value and outcome the result.
     new_value = value
     if (new_value.find('-')) >= 0:
         new_value = new_value.replace('-', '', 1)
-    if (new_value.find('.'))>= 0 or (new_value.find(',')) >= 0:
+    if (new_value.find('.')) >= 0 or (new_value.find(',')) >= 0:
         if (new_value.find('.')) >= 0:
             new_value = new_value.replace('.', '', 1)
-        else :
+        else:
             new_value = new_value.replace(',', '', 1)
     if new_value.isdigit():
         if value == '0':
