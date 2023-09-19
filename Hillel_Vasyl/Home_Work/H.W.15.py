@@ -9,19 +9,19 @@ def exit_quest(val):  # Check input value for exit.
 def prep_check(input):
     if (input.find('-')) >= 0:
         input = input.replace('-', '', 1)
-    if (input.find('.')) >= 0 or (input.find(',')) >= 0:
-        if (input.find('.')) >= 0:
-            input = input.replace('.', '', 1)
-        else :
-            input = input.replace(',', '', 1)
-    return input
+    if (input.find(',')) >= 0:
+        input = input.replace(',', '.')
+    if (input.find('.')) >= 0:
+        input = input.replace('.', '', 1)
+    return  input
+
 
 def check_isdigit(value):  # check the value and outcome the result.
     new_value = prep_check(value)
     result = ''
     if new_value.isdigit():
-        if value == '0':
-            new_zero = f'Ви ввели нуль: {value}'
+        if new_value == '0':
+            new_zero = f'Ви ввели нуль: {new_value}'
             return new_zero
         if value[:1] == '-':
             result = result + '''Ви ввели від'ємне '''
@@ -34,7 +34,7 @@ def check_isdigit(value):  # check the value and outcome the result.
         if value[:1] == '-' and value[1:2] == '.':
                 result = result + (f'-0.{new_value}')
                 return result
-        elif value[:1] == '.':
+        elif value[:1] == '.' or value[:1] == ',':
             result = result + (f'0.{new_value}')
             return result
         return result + f'{value}'
