@@ -37,8 +37,7 @@ def check_isdigit(value):  # check the value and outcome the result.
         elif value[:1] == '.':
             result = result + (f'0.{new_value}')
             return result
-        result = result + f'{value}'
-        return result
+        return result + f'{value}'
     else:
         return False
 
