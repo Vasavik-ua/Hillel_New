@@ -6,41 +6,39 @@ def exit_quest(val):  # Check input value for exit.
     return False
 
 
+def prep_check(input):
+    if (input.find('-')) >= 0:
+        input = input.replace('-', '', 1)
+    if (input.find('.')) >= 0 or (input.find(',')) >= 0:
+        if (input.find('.')) >= 0:
+            input = input.replace('.', '', 1)
+        else :
+            input = input.replace(',', '', 1)
+    return input
+
 def check_isdigit(value):  # check the value and outcome the result.
-    new_value = value
-    if (new_value.find('-')) >= 0:
-        new_value = new_value.replace('-', '', 1)
-    if (new_value.find('.')) >= 0 or (new_value.find(',')) >= 0:
-        if (new_value.find('.')) >= 0:
-            new_value = new_value.replace('.', '', 1)
-        else:
-            new_value = new_value.replace(',', '', 1)
+    new_value = prep_check(value)
+    result = ''
     if new_value.isdigit():
         if value == '0':
             new_zero = f'Ви ввели нуль: {value}'
             return new_zero
         if value[:1] == '-':
-            if (value.find('.')) >= 0 or (value.find(',')) >= 0:
-                if value[1:2] == '.' or value[1:2] == ',':
-                    new_minus = f'''Ви ввели від'ємне дробове число: -0.{new_value}'''
-                    return new_minus
-                else:
-                    new_minus = f'''Ви ввели від'ємне дробове число: {value}'''
-                    return new_minus
-            else:
-                new_minint = f'''Ви ввели від'ємне ціле число: {value}'''
-                return new_minint
+            result = result + '''Ви ввели від'ємне '''
         else:
-            if (value.find('.')) >= 0 or (value.find(',')) >= 0:
-                if value[:1] == '.' or value[:1] == ',':
-                    new_intper = f'''Ви ввели позитивне дробове число: 0.{new_value}'''
-                    return new_intper
-                else:
-                    new_intdb = f'Ви ввели позитивне дробове число: {value}'
-                    return new_intdb
-            else:
-                new_int = f'Ви ввели позитивне ціле число: {value}'
-                return new_int
+            result = result + 'Ви ввели позитивне '
+        if (value.find('.')) >= 0 or (value.find(',')) >= 0:
+            result = result + 'дробове число: '
+        else:
+            result = result + 'ціле число: '
+        if value[:1] == '-' and value[1:2] == '.':
+                result = result + (f'-0.{new_value}')
+                return result
+        elif value[:1] == '.':
+            result = result + (f'0.{new_value}')
+            return result
+        result = result + f'{value}'
+        return result
     else:
         return False
 
