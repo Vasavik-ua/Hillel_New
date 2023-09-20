@@ -1,7 +1,7 @@
 first = 'First\n'
 second = 'Second\n'
 third = 'Third\n'
-fourth = 'Fourth\n'
+fourth = 'Fourth'
 
 f = open('home_work.17.txt', 'w')
 f.write(first)
