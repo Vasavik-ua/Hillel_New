@@ -1,10 +1,7 @@
-def prep_check(input):
-    if (input.find('-')) >= 0:
-        input = input.replace('-', '', 1)
-    if (input.find(',')) >= 0:
-        input = input.replace(',', '.')
-    if (input.find('.')) >= 0:
-        input = input.replace('.', '', 1)
-    return  input
+import random
 
-print(prep_check('-1,03'))
+my_list = ['095', '066', '098', '096', '050', '097']
+new_list = random.choice(my_list)
+last = random.randint(00000000, 9999999)
+new_value = new_list+(str(last))
+print(new_value)
