@@ -6,15 +6,6 @@ with open('h.w.18.json') as y:
     json_data = json.load(y)
 
 
-def cre_new(x):
-    g = list(x.items())
-    w = []
-    for i in (range(len(g))):
-        h = [g[i][0], g[i][1][0], g[i][1][1]]
-        w.append(h)
-    return w
-
-
 def rand_oper():
     my_list = ['095', '066', '098', '096', '050', '097']
     new_val = random.choice(my_list)
@@ -25,8 +16,18 @@ def rand_oper():
     return new_val
 
 
+def cre_new_list(x):
+    json_list = list(x.items())
+    return_ls = []
+    for i in (range(len(json_list))):
+        rand_val = rand_oper()
+        h = [json_list[i][0], json_list[i][1][0], json_list[i][1][1], rand_val]
+        return_ls.append(h)
+    return return_ls
+
+
 first_row = [["ID", "Name", "Age", "Phone"]]
-new_list = cre_new(json_data)
+new_list = cre_new_list(json_data)
 
 with open('h.m.19.csv', 'w', encoding='utf-8') as f:
     file_new = csv.writer(f, delimiter=',')
