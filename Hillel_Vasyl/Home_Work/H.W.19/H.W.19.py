@@ -1,5 +1,6 @@
 import csv
 import json
+import random
 
 with open('h.w.18.json') as y:
     json_data = json.load(y)
@@ -12,6 +13,16 @@ def cre_new(x):
         h = [g[i][0], g[i][1][0], g[i][1][1]]
         w.append(h)
     return w
+
+
+def rand_oper():
+    my_list = ['095', '066', '098', '096', '050', '097']
+    new_val = random.choice(my_list)
+    num_req = 7
+    for val in range(num_req):
+        last = random.randint(0, 9)
+        new_val += (str(last))
+    return new_val
 
 
 first_row = [["ID", "Name", "Age", "Phone"]]
