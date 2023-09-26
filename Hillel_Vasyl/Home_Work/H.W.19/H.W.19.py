@@ -28,9 +28,10 @@ def cre_new_list(x):
 
 first_row = [["ID", "Name", "Age", "Phone"]]
 new_list = cre_new_list(json_data)
+print(new_list)
 
-with open('h.m.19.csv', 'w', encoding='utf-8') as f:
-    file_new = csv.writer(f, delimiter=',')
+with open('h.m.19.csv', 'w', newline='', encoding='utf-8') as f:
+    file_new = csv.writer(f, delimiter=',', lineterminator='\n')
     for item in first_row:
         file_new.writerow(item)
     for item in new_list:
