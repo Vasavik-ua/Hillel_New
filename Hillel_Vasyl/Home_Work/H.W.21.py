@@ -14,6 +14,3 @@ class Auto:
 
     def stop(self):
         print('Stop')
-
-
-auto_new = Auto('Audi ', 5, 'A4')
