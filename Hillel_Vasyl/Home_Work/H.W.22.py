@@ -20,7 +20,9 @@ class Auto:
 
 
 class Truck(Auto):
-    max_load = 3500
+    def __init__(self, brand, age, mark, color, weight, max_load=4000):
+        super().__init__(brand, age, mark, color, weight)
+        self.max_load = max_load
 
     def move(self):
         print('Attention')
@@ -33,17 +35,19 @@ class Truck(Auto):
 
 
 class Car(Auto):
-    max_speed = 200
+    def __init__(self, brand, age, mark, color, weight, max_speed=200):
+        super().__init__(brand, age, mark, color, weight)
+        self.max_speed = max_speed
 
     def move(self):
         super().move()
         print(f'Max speed is {self.max_speed}')
 
 
-truck_1 = Truck('Volvo', 5, 'Trucks')
-truck_2 = Truck('Mercedes', 5, 'Astros')
-super_car1 = Car('Ferrari', 0, 'F150')
-super_car2 = Car('Lambo', 0, 'Cirono')
+truck_1 = Truck('Volvo', 5, 'Trucks', 'black', 3560, 5000)
+truck_2 = Truck('Mercedes', 5, 'Astros', 'purlple', 3400, 4990)
+super_car1 = Car('Ferrari', 0, 'F150', 'red', 2900, 250)
+super_car2 = Car('Lambo', 0, 'Cirono', 'green', 2800, 300)
 
 print(f'Name of first Truck brand: {truck_1.brand}')
 print(f'Name of first Truck age: {truck_1.age}')
