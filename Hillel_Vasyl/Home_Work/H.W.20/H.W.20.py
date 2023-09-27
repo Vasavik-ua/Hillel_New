@@ -22,23 +22,6 @@ def delete_serch(val):
     return new_data
 
 
-id_search = (search_val('age'))
-new_array = delete_serch(id_search)
-
-woork_book = openpyxl.Workbook()
-woork_book.create_sheet(title='First sheet', index=0)
-sheet = woork_book['First sheet']
-
-for row_id, row in enumerate(new_array):
-    for col_id, value in enumerate(row):
-        cell = sheet.cell(row=row_id + 1, column=col_id + 1)
-        cell.value = value
-
-sheet_1 = woork_book['Sheet']
-
-rows = sheet.max_row
-cols = sheet.max_column
-
 def write_row(sheet,col_n, rows):  # Sheet in use; witch colmn; max val of row.
     id_new = []
     for item in range(col_n, col_n+1 ):
@@ -46,26 +29,45 @@ def write_row(sheet,col_n, rows):  # Sheet in use; witch colmn; max val of row.
             cell = sheet.cell(row=val, column=item)
             id_new.append(cell.value)
     return id_new
-id_new = write_row(sheet,1,rows)
-#id_new = []
-#for item in range(1, 2):
-#    for val in range(1, rows + 1):
-#        cell = sheet.cell(row=val, column=item)
-#        id_new.append(cell.value)
-name_new = []
-for item in range(2, 3):
-    for val in range(1, rows + 1):
-        cell = sheet.cell(row=val, column=item)
-        name_new.append(cell.value)
-phone_new = []
-for item in range(3, 4):
-    for val in range(1, rows + 1):
-        cell = sheet.cell(row=val, column=item)
-        phone_new.append(cell.value)
+
+
+def create_table(sheet, array):
+    for row_id, row in enumerate(array):
+        for col_id, value in enumerate(row):
+            cell = sheet.cell(row=row_id + 1, column=col_id + 1)
+            cell.value = value
+
+
+id_search = (search_val('age'))
+new_array = delete_serch(id_search)
+
+woork_book = openpyxl.Workbook()
+woork_book.create_sheet(title='First sheet', index=0)
+sheet = woork_book['First sheet']
+
+
+
+create_table(sheet, new_array)
+
+#for row_id, row in enumerate(new_array):
+#    for col_id, value in enumerate(row):
+#        cell = sheet.cell(row=row_id + 1, column=col_id + 1)
+#        cell.value = value
+
+
+
+sheet_1 = woork_book['Sheet']
+
+rows = sheet.max_row
+cols = sheet.max_column
+
 
 new_list = []
+id_new = write_row(sheet,1,rows)
 new_list.append(id_new)
+name_new = write_row(sheet, 2, rows)
 new_list.append(name_new)
+phone_new = write_row(sheet, 3, rows)
 new_list.append(phone_new)
 
 
