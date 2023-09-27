@@ -48,7 +48,6 @@ def main():
     sheet_1 = woork_book['Sheet']
 
     rows = sheet.max_row
-    #cols = sheet.max_column
 
     new_list = []
     id_new = write_row(sheet, 1, rows)
