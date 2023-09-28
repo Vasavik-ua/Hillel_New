@@ -16,23 +16,38 @@ def rand_oper():
     return new_val
 
 
+def prob_75(leng, prob):  # X: lenght; y: probality.
+    array_new = []
+    per_75 = leng - (round(leng * (prob/100)))
+    for item in range(leng):
+        array_new.append(rand_oper())
+    for val in range(per_75):
+        sost_val = random.randint(0, leng-1)
+        array_new[sost_val] = ''
+        return array_new
+
+
 def cre_new_list(x):
     json_list = list(x.items())
     return_ls = []
+    rand_val = prob_75(len(json_list), 75)
     for i in (range(len(json_list))):
-        rand_val = rand_oper()
-        h = [json_list[i][0], json_list[i][1][0], json_list[i][1][1], rand_val]
+        h = [json_list[i][0], json_list[i][1][0], json_list[i][1][1], rand_val[i]]
         return_ls.append(h)
     return return_ls
 
 
-first_row = [["ID", "Name", "Age", "Phone"]]
-new_list = cre_new_list(json_data)
-print(new_list)
+def main():
+    first_row = [["ID", "Name", "Age", "Phone"]]
+    new_list = cre_new_list(json_data)
+    print(new_list)
 
-with open('h.m.19.csv', 'w', newline='', encoding='utf-8') as f:
-    file_new = csv.writer(f, delimiter=',', lineterminator='\n')
-    for item in first_row:
-        file_new.writerow(item)
-    for item in new_list:
-        file_new.writerow(item)
+    with open('h.m.19.csv', 'w', newline='', encoding='utf-8') as f:
+        file_new = csv.writer(f, delimiter=',', lineterminator='\n')
+        for item in first_row:
+            file_new.writerow(item)
+        for item in new_list:
+            file_new.writerow(item)
+
+
+main()
