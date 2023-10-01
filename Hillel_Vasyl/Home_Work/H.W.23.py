@@ -4,8 +4,8 @@ class Point:
         self.y = y
 
     def __sub__(self, other):
-        fir = abs(self.x) - abs(other.x)
-        seco = abs(self.y) - abs(other.y)
+        fir = self.x - other.x
+        seco = self.y - other.y
         return Point(fir, seco)
 
     def __str__(self):
@@ -27,6 +27,6 @@ class Circle(Point):
         if abs(self.radius) == abs(other.radius):
             return super().__sub__(other)
         else:
-            rad = abs(self.radius) - abs(other.radius)
+            rad = abs(self.radius - other.radius)
             sub_new = super().__sub__(other)
             return Circle(rad, sub_new.x, sub_new.y)
