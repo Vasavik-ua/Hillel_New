@@ -28,6 +28,5 @@ class Circle(Point):
             return super().__sub__(other)
         else:
             rad = abs(self.radius) - abs(other.radius)
-            fir = self.x - other.x
-            seco = self.y - other.y
-            return Circle(rad, fir, seco)
+            sub_new = super().__sub__(other)
+            return Circle(rad, sub_new.x, sub_new.y)
