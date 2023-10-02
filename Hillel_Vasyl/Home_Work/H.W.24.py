@@ -1,27 +1,15 @@
 class Mystr(str):
-    def __init__(self, x):
-        self.x = x
+    def __init__(self, val):
+        self.val = val
 
     def __add__(self, other):
         return super().__add__(other)
 
-
     def __sub__(self, other):
-        y = str(self.x)
-        r = str(other.x)
-        w = y.replace(r, '', 1)
-        return w
+        str_x = str(self.val)
+        str1_x = str(other.val)
+        result = str_x.replace(str1_x, '', 1)
+        return result
 
-a = Mystr([1,2,3,4])
-b = Mystr(3)
-c = a - b
-print(type(c))
-print(c)
-
-#tring('New bala7nce') - 7               ->    'New balance'
-#String('New balance') - 'bal'            ->    'New ance'
-#String('New balance') - 'Bal'            ->    'New balance'
-#String('pineapple apple pine') - 'apple' ->    'pine apple pine'
-#String('New balance') - 'apple'          ->    'New balance'
-#String('NoneType') - None                ->    'Type'
-#String(55678345672) - 7                  ->    '5568345672'
+    def __str__(self):
+        return f"""'{self.val}'"""
