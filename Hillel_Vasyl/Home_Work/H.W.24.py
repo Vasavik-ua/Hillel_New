@@ -3,9 +3,12 @@ class Mystr(str):
         self.val = val
 
     def __add__(self, other):
-        return super().__add__(other)
+        new_add = ''
+        new_add += str(self.val)
+        new_add += str(other)
+        return new_add
 
     def __sub__(self, other):
-        str_x = str(self.val)
-        str1_x = str(other.val)
-        return str_x.replace(str1_x, '', 1)
+        sl_val = str(self.val)
+        ot_val = str(other)
+        return sl_val.replace(ot_val, '', 1)
