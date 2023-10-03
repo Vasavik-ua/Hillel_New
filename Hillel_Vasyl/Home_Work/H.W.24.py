@@ -8,8 +8,4 @@ class Mystr(str):
     def __sub__(self, other):
         str_x = str(self.val)
         str1_x = str(other.val)
-        result = str_x.replace(str1_x, '', 1)
-        return result
-
-    def __str__(self):
-        return f"""'{self.val}'"""
+        return str_x.replace(str1_x, '', 1)
