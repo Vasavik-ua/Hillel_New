@@ -1,6 +1,6 @@
+from datetime import date
 
-
-def sum_age(data):
+def sum_age(data):  # Insert the date
     dat = date.today()
     dat_t = dat.strftime("%d/%m/%Y")
     sym_v = ''
