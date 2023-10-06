@@ -3,24 +3,22 @@ class Car:
     COLORS = []
     NUMBER_OF_CARS = 0
 
-    def __init__(self, model, year, fuel_type, color, number=0):
+    def __init__(self, model, year, fuel_type, color):
         self.model = model
         self.year = year
         self.color = color
-        self.fuel_type = fuel_type
-        self.number = number
+        self.fuel_type = Car.is_valid_fuel_type(fuel_type)
         Car.NUMBER_OF_CARS += 1
         Car.COLORS.append(self.color) if self.color not in Car.COLORS else ...
         self.number = Car.NUMBER_OF_CARS
-        self.fuel_type = Car.is_valid_fuel_type(self)
 
     @staticmethod
     def is_valid_fuel_type(self):
-        if self.fuel_type in Car.FUEL_TYPES:
-            return self.fuel_type
+        if self in Car.FUEL_TYPES:
+            return self
         else:
-            self.fuel_type = Car.FUEL_TYPES[0]
-            return self.fuel_type
+            self = Car.FUEL_TYPES[0]
+            return self
 
     def __str__(self):
         return f'{self.model}, {self.year}, {self.fuel_type}, {self.color}'
@@ -29,11 +27,9 @@ class Car:
     def numbers(self):
         return f'{self.number} from {Car.NUMBER_OF_CARS} '
 
-    @staticmethod
     def get_used_colors():
         return len(Car.COLORS)
 
-    @staticmethod
     def get_number_of_cars():
         return Car.NUMBER_OF_CARS
 
