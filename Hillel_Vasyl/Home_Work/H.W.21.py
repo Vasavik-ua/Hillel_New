@@ -14,3 +14,4 @@ class Auto:
 
     def stop(self):
         print('Stop')
+
