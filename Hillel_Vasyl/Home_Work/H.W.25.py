@@ -26,6 +26,7 @@ class Car:
     @property
     def numbers(self):
         return f'{self.number} from {Car.NUMBER_OF_CARS} '
+
     @classmethod
     def get_used_colors(cls):
         return len(cls.COLORS)
