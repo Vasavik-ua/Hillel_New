@@ -26,12 +26,13 @@ class Car:
     @property
     def numbers(self):
         return f'{self.number} from {Car.NUMBER_OF_CARS} '
+    @classmethod
+    def get_used_colors(cls):
+        return len(cls.COLORS)
 
-    def get_used_colors():
-        return len(Car.COLORS)
-
-    def get_number_of_cars():
-        return Car.NUMBER_OF_CARS
+    @classmethod
+    def get_number_of_cars(cls):
+        return cls.NUMBER_OF_CARS
 
 
 car_1 = Car('Zaz', 1979, 'дизель', 'black')
