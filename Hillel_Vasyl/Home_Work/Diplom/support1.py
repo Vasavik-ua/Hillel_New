@@ -63,6 +63,8 @@ def load_button():
     Person.DATE_OF_BIRTH.append(text_birth.get())
     Person.DATE_OF_DEATH.append(text_death.get())
     Person.GENDER.append(text_gender.get())
+    Person.AGE.append(check_age(Person.DATE_OF_BIRTH,
+                                Person.DATE_OF_DEATH))
 
 
     text_name.delete(0, END)
