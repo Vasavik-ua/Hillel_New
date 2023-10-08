@@ -54,32 +54,41 @@ class Person:
             cell.value = value
 
 
+class Window:
+    WORK_BOOK = None
 
-def load_button():
-    Person.NAME.append(text_name.get())
-    Person.SURNAME.append(text_surname.get())
-    Person.SEC_SURNAME.append(text_sec_surname.get())
-    Person.DATE_OF_BIRTH.append(text_birth.get())
-    Person.DATE_OF_DEATH.append(text_death.get())
-    Person.GENDER.append(text_gender.get())
-    Person.AGE.append(check_age(text_birth.get(), text_death.get()))
+    @staticmethod
+    def load_button():
+        Person.NAME.append(text_name.get())
+        Person.SURNAME.append(text_surname.get())
+        Person.SEC_SURNAME.append(text_sec_surname.get())
+        Person.DATE_OF_BIRTH.append(text_birth.get())
+        Person.DATE_OF_DEATH.append(text_death.get())
+        Person.GENDER.append(text_gender.get())
+        Person.AGE.append(check_age(text_birth.get(), text_death.get()))
 
-    text_name.delete(0, END)
-    text_surname.delete(0, END)
-    text_sec_surname.delete(0, END)
-    text_birth.delete(0, END)
-    text_death.delete(0, END)
-    text_gender.delete(0, END)
+        text_name.delete(0, END)
+        text_surname.delete(0, END)
+        text_sec_surname.delete(0, END)
+        text_birth.delete(0, END)
+        text_death.delete(0, END)
+        text_gender.delete(0, END)
 
+    @staticmethod
+    def safe_file_button():
+        sheet = Window.WORK_BOOK['Diplom Work']
+        Person.init_table(sheet)
+        Person.table_crea(sheet)
+        Window.WORK_BOOK.save('DiploM.xlsx')  # Save new file.
 
-def safe_file():
-    work_book = openpyxl.Workbook()  # Create new file.
-    work_book.create_sheet(title='Diplom Work', index=0)
-    sheet = work_book['Diplom Work']
-    Person.init_table(sheet)
-    Person.table_crea(sheet)
+    @staticmethod
+    def create_file():
+        Window.WORK_BOOK = openpyxl.Workbook()  # Create new file.
+        Window.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
 
-    work_book.save('DiploM.xlsx')  # Save new file.
+    @staticmethod
+    def load_file_button():
+        Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
 
 
 def check_age(data, other):  # Insert the date
@@ -123,16 +132,6 @@ def check_age(data, other):  # Insert the date
         return age
 
 
-
-
-
-
-#wb = openpyxl.load_workbook('h.w.20+.xlsx')  #  Open the file.
-
-
-
-
-
 window = tk.Tk()
 window.geometry("700x550")
 window.title("!!! DIPLOM !!!")
@@ -173,16 +172,17 @@ text_gender = tk.Entry(width=60)
 text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
 
-create_button = tk.Button(text="Load People", command=load_button)
-create_button.grid(row=16, column= 1, sticky="E", padx=20, pady=10)
+create_button = tk.Button(text="Create File", command=Window.create_file)
+create_button.grid(row=20, column= 1, sticky="E", padx=20, pady=10)
 
-create_button = tk.Button(text="Safe File with Input", command=safe_file)
-create_button.grid(row=22, column= 1, sticky="E", padx=20, pady=10)
-
-create_button = tk.Button(text="Load File ", command=load_button)
+create_button = tk.Button(text="Load People", command=Window.load_button)
 create_button.grid(row=26, column= 1, sticky="E", padx=20, pady=10)
 
+create_button = tk.Button(text="Safe File", command=Window.safe_file_button)
+create_button.grid(row=32, column= 1, sticky="E", padx=20, pady=10)
 
+create_button = tk.Button(text="Load File", command=Window.load_file_button)
+create_button.grid(row=38, column= 1, sticky="E", padx=20, pady=10)
 
 
 if __name__ == "__main__":
