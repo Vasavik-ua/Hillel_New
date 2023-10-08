@@ -16,39 +16,40 @@ class Person:
                   'DATE_OF_BIRTH', 'DATE_OF_DEATH',
                   'GENDER', 'AGE']
 
-    def init_table(self, shee):
-        for row_id, value in enumerate(Person.INIT_TABLE):
+    @classmethod
+    def init_table(cls, shee):
+        for row_id, value in enumerate(cls.INIT_TABLE):
             cell = shee.cell(row=1, column=row_id + 1)
             cell.value = value
-    def column_name(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 1)
-            cell.value = value
-    def column_surname(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 2)
-            cell.value = value
-    def column_sec_surname(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 3)
-            cell.value = value
-    def column_birth(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 4)
-            cell.value = value
-    def column_death(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 5)
+
+    @staticmethod
+    def table_crea(shee):
+        for row_id, value in enumerate(Person.NAME):
+            cell = shee.cell(row=row_id + 1, column=1)
             cell.value = value
 
-    def column_gender(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 6)
+        for row_id, value in enumerate(Person.SURNAME):
+            cell = shee.cell(row=row_id + 1, column=2)
             cell.value = value
 
-    def column_age(self, shee, array):
-        for row_id, value in enumerate(array):
-            cell = shee.cell(row=row_id + 1, column= 7)
+        for row_id, value in enumerate(Person.SEC_SURNAME):
+            cell = shee.cell(row=row_id + 1, column=3)
+            cell.value = value
+
+        for row_id, value in enumerate(Person.DATE_OF_BIRTH):
+            cell = shee.cell(row=row_id + 1, column=4)
+            cell.value = value
+
+        for row_id, value in enumerate(Person.DATE_OF_DEATH):
+            cell = shee.cell(row=row_id + 1, column=5)
+            cell.value = value
+
+        for row_id, value in enumerate(Person.GENDER):
+            cell = shee.cell(row=row_id + 1, column=6)
+            cell.value = value
+
+        for row_id, value in enumerate(Person.AGE):
+            cell = shee.cell(row=row_id + 1, column=7)
             cell.value = value
 
 
@@ -60,8 +61,7 @@ def load_button():
     Person.DATE_OF_BIRTH.append(text_birth.get())
     Person.DATE_OF_DEATH.append(text_death.get())
     Person.GENDER.append(text_gender.get())
-    Person.AGE.append(check_age(Person.DATE_OF_BIRTH,
-                                Person.DATE_OF_DEATH))
+    Person.AGE.append(check_age(text_birth.get(), text_death.get()))
 
     text_name.delete(0, END)
     text_surname.delete(0, END)
@@ -69,6 +69,16 @@ def load_button():
     text_birth.delete(0, END)
     text_death.delete(0, END)
     text_gender.delete(0, END)
+
+
+def safe_file():
+    work_book = openpyxl.Workbook()  # Create new file.
+    work_book.create_sheet(title='Diplom Work', index=0)
+    sheet = work_book['Diplom Work']
+    Person.init_table(sheet)
+    Person.table_crea(sheet)
+
+    work_book.save('DiploM.xlsx')  # Save new file.
 
 
 def check_age(data, other):  # Insert the date
@@ -113,12 +123,7 @@ def check_age(data, other):  # Insert the date
 
 
 
-work_book = openpyxl.Workbook()  # Create new file.
-work_book.create_sheet(title='Diplom Work', index=0)
-sheet = work_book['Diplom Work']
 
-
-work_book.save('DiploM.xlsx')  # Save new file.
 
 
 #wb = openpyxl.load_workbook('h.w.20+.xlsx')  #  Open the file.
@@ -170,7 +175,7 @@ text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 create_button = tk.Button(text="Load People", command=load_button)
 create_button.grid(row=16, column= 1, sticky="E", padx=20, pady=10)
 
-create_button = tk.Button(text="Safe File with Input", command=load_button)
+create_button = tk.Button(text="Safe File with Input", command=safe_file)
 create_button.grid(row=22, column= 1, sticky="E", padx=20, pady=10)
 
 create_button = tk.Button(text="Load File ", command=load_button)
@@ -178,7 +183,6 @@ create_button.grid(row=26, column= 1, sticky="E", padx=20, pady=10)
 
 
 
-print(Person.NAME)
 
 if __name__ == "__main__":
     window.mainloop()
