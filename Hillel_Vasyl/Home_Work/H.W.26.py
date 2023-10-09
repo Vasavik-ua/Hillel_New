@@ -51,6 +51,8 @@ class Calculator:
             return y
         except ValueError:
             return 'You cannot input 0 or negative'
+        except TypeError:
+            return 'Provide to int number'
 
     def __str__(self):
         pass
@@ -58,3 +60,9 @@ class Calculator:
 
 class Mynewtyperror(Exception):
     pass
+
+
+a = Calculator('n')
+b = Calculator(0)
+c = a.sqrt()
+print(c)
