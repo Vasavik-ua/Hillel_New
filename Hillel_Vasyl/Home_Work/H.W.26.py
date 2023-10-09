@@ -60,9 +60,3 @@ class Calculator:
 
 class Mynewtyperror(Exception):
     pass
-
-
-a = Calculator('n')
-b = Calculator(0)
-c = a.sqrt()
-print(c)
