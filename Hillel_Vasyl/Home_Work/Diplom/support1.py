@@ -38,8 +38,6 @@ for v in range(len(array1)):
     find_value.append(row_list.copy())
     row_list.clear()
 
-print(find_value)
-
 
 def age_word(x):
     t = x[-1:]
@@ -64,6 +62,8 @@ for i in find_value:
         final_print.append(f'жінка. Народилася {i[3]}. Померла {i[4]}.')
     elif((i[5]).lower()) == 'f' and i[4] == None:
         final_print.append(f'жінка. Народилася {i[3]}.')
+    print(final_print)
+    final_print.clear()
 
 
-print(final_print)
+
