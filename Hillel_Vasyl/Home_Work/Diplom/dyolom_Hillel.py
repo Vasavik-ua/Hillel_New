@@ -56,6 +56,7 @@ class Person:
 
 class Window:
     WORK_BOOK = None
+    FIND_VALUE = 'bbbbblllaaaa'
 
     @staticmethod
     def load_button():
@@ -132,8 +133,84 @@ class Window:
             return age
 
 
+    @staticmethod
+    def search_row(rows, col, sheet, val):
+        array1 = []
+        for item in range(col):
+            for i in range(rows):
+                cell = sheet.cell(row=i + 2, column=item + 1)
+                x = (str(cell.value.lower()).find(val.lower()))
+                if x < 0:
+                    pass
+                else:
+                    array1.append(i + 2)
+        return array1
+
+    @staticmethod
+    def result_of_search(val, sheet, col):  # Val:array;
+        find_value = []
+        for v in range(len(val)):
+            row_list = []
+            for i in range(col):
+                cell = sheet.cell(row=int(list(val)[v]), column=i + 1)
+                row_list.append(cell.value)
+            find_value.append(row_list.copy())
+            row_list.clear()
+        return find_value
+
+    @staticmethod
+    def age_word(x):
+        t = x[-1:]
+        result_qty = lambda t: 'рік' if int(t) == 1 else 'роки' if 2 <= int(t) <= 4 else 'років'
+        return result_qty(t)
+
+    @staticmethod
+    def print_search_result(find_value):
+        ret_val = []
+        gg_val = ''
+        for i in find_value:
+            final_print = []
+            final_print.append(f'{i[0].title()} ')
+            if not i[1] == None:
+                final_print.append(f'{i[1].title()} ')
+            if not i[2] == None:
+                final_print.append(f'{i[2].title()} ')
+            final_print.append(f'{i[6]} ')
+            final_print.append(f'{Window.age_word(str(i[6]))}, ')
+            if ((i[5]).lower()) == 'm' and (not i[4] == None):
+                final_print.append(f'чоловік. Народився {i[3]}. Помер {i[4]}.')
+            elif ((i[5]).lower()) == 'm' and i[4] == None:
+                final_print.append(f'чоловік. Народився {i[3]}.')
+            if ((i[5]).lower()) == 'f' and (not i[4] == None):
+                final_print.append(f'жінка. Народилася {i[3]}. Померла {i[4]}.')
+            elif ((i[5]).lower()) == 'f' and i[4] == None:
+                final_print.append(f'жінка. Народилася {i[3]}.')
+
+            ret_val.append(final_print.copy())
+            final_print.clear()
+        for item in ret_val:
+            gg_val = gg_val + ''.join(map(str, item)) + '\n'
+        return gg_val
+
+    @staticmethod
+    def search_button():
+        sheet = Window.WORK_BOOK['Diplom Work']
+        rows = (sheet.max_row - 1)
+        col = sheet.max_column
+        se_val = search_val.get()  # search value
+        array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
+        find_value = Window.result_of_search(array1, sheet, col)
+        text_uot = tk.Text(width=60, height=16, )
+        text_uot.insert(tk.END, Window.print_search_result(find_value))
+        text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
+
+
+
+
+
+
 window = tk.Tk()
-window.geometry("700x800")
+window.geometry("750x780")
 window.title("!!! DIPLOM !!!")
 window.grid_columnconfigure(0, weight=1)
 
@@ -172,17 +249,26 @@ text_gender = tk.Entry(width=60)
 text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
 
-create_button = tk.Button(text="Create File", command=Window.create_file)
+create_button = tk.Button(text="Create File", command=Window.create_file, font= ("Helvetica", 13))
 create_button.grid(row=20, column= 1, sticky="W", padx=90, pady=10)
 
-create_button = tk.Button(text="Load People", command=Window.load_button)
+create_button = tk.Button(text="Load People", command=Window.load_button, font= ("Helvetica", 13))
 create_button.grid(row=20, column= 1, sticky="W", padx=200, pady=10)
 
-create_button = tk.Button(text="Safe File", command=Window.safe_file_button)
+create_button = tk.Button(text="Safe File", command=Window.safe_file_button, font= ("Helvetica", 13))
+create_button.grid(row=20, column= 1, sticky="E", padx=110, pady=10)
+
+create_button = tk.Button(text="Load File", command=Window.load_file_button, font= ("Helvetica", 13))
 create_button.grid(row=20, column= 1, sticky="E", padx=20, pady=10)
 
-create_button = tk.Button(text="Load File", command=Window.load_file_button)
-create_button.grid(row=20, column= 1, sticky="E", padx=100, pady=10)
+create_button = tk.Button(text="Search People", command=Window.search_button, font= ("Helvetica", 13))
+create_button.grid(row=30, column= 0, sticky="W", padx=20, pady=10)
+
+search_label = tk.Label(window, text=" Put the Search name: ", font= ("Helvetica", 13))
+search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
+search_val = tk.Entry(width=60)
+search_val.grid(row=26, column=1, sticky="e", padx=20, pady=10)
+
 
 
 if __name__ == "__main__":
