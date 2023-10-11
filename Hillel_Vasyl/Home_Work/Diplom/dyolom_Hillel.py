@@ -5,7 +5,7 @@ from datetime import date
 
 
 class Person:
-    NAME= []
+    NAME = []
     SURNAME = []
     SEC_SURNAME = []
     DATE_OF_BIRTH = []
@@ -65,7 +65,7 @@ class Window:
         Person.DATE_OF_BIRTH.append(text_birth.get())
         Person.DATE_OF_DEATH.append(text_death.get())
         Person.GENDER.append(text_gender.get())
-        Person.AGE.append(check_age(text_birth.get(), text_death.get()))
+        Person.AGE.append(Window.check_age(text_birth.get(), text_death.get()))
 
         text_name.delete(0, END)
         text_surname.delete(0, END)
@@ -90,50 +90,50 @@ class Window:
     def load_file_button():
         Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
 
-
-def check_age(data, other):  # Insert the date
-    if other == '':
-        dat = date.today()
-        dat_t = dat.strftime("%d/%m/%Y")
-        sym_v = ''
-        for val in dat_t:
-            if not val.isdigit():
-                sym_v += val
-                break
-        dat_new = dat_t.split(sym_v)
-        sym_val = ''
-        for val in data:
-            if not val.isdigit():
-                sym_val += val
-                break
-        new_l = data.split(sym_val)
-        age = int(dat_new[2]) - int(new_l[2])
-        if int(dat_new[1]) <= int(new_l[1]):
-            if int(dat_new[0]) < int(new_l[0]):
-                age -= 1
-        return age
-    else:
-        sym_v = ''
-        for val in other:
-            if not val.isdigit():
-                sym_v += val
-                break
-        dat_new = other.split(sym_v)
-        sym_val = ''
-        for val in data:
-            if not val.isdigit():
-                sym_val += val
-                break
-        new_l = data.split(sym_val)
-        age = int(dat_new[2]) - int(new_l[2])
-        if int(dat_new[1]) <= int(new_l[1]):
-            if int(dat_new[0]) < int(new_l[0]):
-                age -= 1
-        return age
+    @staticmethod
+    def check_age(data, other):  # Insert the date
+        if other == '':
+            dat = date.today()
+            dat_t = dat.strftime("%d/%m/%Y")
+            sym_v = ''
+            for val in dat_t:
+                if not val.isdigit():
+                    sym_v += val
+                    break
+            dat_new = dat_t.split(sym_v)
+            sym_val = ''
+            for val in data:
+                if not val.isdigit():
+                    sym_val += val
+                    break
+            new_l = data.split(sym_val)
+            age = int(dat_new[2]) - int(new_l[2])
+            if int(dat_new[1]) <= int(new_l[1]):
+                if int(dat_new[0]) < int(new_l[0]):
+                    age -= 1
+            return age
+        else:
+            sym_v = ''
+            for val in other:
+                if not val.isdigit():
+                    sym_v += val
+                    break
+            dat_new = other.split(sym_v)
+            sym_val = ''
+            for val in data:
+                if not val.isdigit():
+                    sym_val += val
+                    break
+            new_l = data.split(sym_val)
+            age = int(dat_new[2]) - int(new_l[2])
+            if int(dat_new[1]) <= int(new_l[1]):
+                if int(dat_new[0]) < int(new_l[0]):
+                    age -= 1
+            return age
 
 
 window = tk.Tk()
-window.geometry("700x550")
+window.geometry("700x800")
 window.title("!!! DIPLOM !!!")
 window.grid_columnconfigure(0, weight=1)
 
@@ -173,16 +173,16 @@ text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
 
 create_button = tk.Button(text="Create File", command=Window.create_file)
-create_button.grid(row=20, column= 1, sticky="E", padx=20, pady=10)
+create_button.grid(row=20, column= 1, sticky="W", padx=90, pady=10)
 
 create_button = tk.Button(text="Load People", command=Window.load_button)
-create_button.grid(row=26, column= 1, sticky="E", padx=20, pady=10)
+create_button.grid(row=20, column= 1, sticky="W", padx=200, pady=10)
 
 create_button = tk.Button(text="Safe File", command=Window.safe_file_button)
-create_button.grid(row=32, column= 1, sticky="E", padx=20, pady=10)
+create_button.grid(row=20, column= 1, sticky="E", padx=20, pady=10)
 
 create_button = tk.Button(text="Load File", command=Window.load_file_button)
-create_button.grid(row=38, column= 1, sticky="E", padx=20, pady=10)
+create_button.grid(row=20, column= 1, sticky="E", padx=100, pady=10)
 
 
 if __name__ == "__main__":
