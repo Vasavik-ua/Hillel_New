@@ -47,12 +47,12 @@ def age_word(x):
 
 final_print = []
 for i in find_value:
-    final_print.append(i[0])
+    final_print.append(f'{i[0].title()} ')
     if not i[1] == None:
-        final_print.append(i[1])
+        final_print.append(f'{i[1].title()} ')
     if not i[2] == None:
-        final_print.append(i[2])
-    final_print.append(i[6])
+        final_print.append(f'{i[2].title()} ')
+    final_print.append(f'{i[6]} ')
     final_print.append(f'{age_word(str(i[6]))}, ')
     if ((i[5]).lower()) == 'm' and (not i[4] == None):
         final_print.append(f'чоловік. Народився {i[3]}. Помер {i[4]}.')
@@ -62,8 +62,12 @@ for i in find_value:
         final_print.append(f'жінка. Народилася {i[3]}. Померла {i[4]}.')
     elif((i[5]).lower()) == 'f' and i[4] == None:
         final_print.append(f'жінка. Народилася {i[3]}.')
-    print(final_print)
+    for val in final_print:
+        print(val, end='')
+    print('')
     final_print.clear()
+
+
 
 
 
