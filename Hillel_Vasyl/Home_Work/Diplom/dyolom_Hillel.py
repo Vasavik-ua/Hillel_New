@@ -56,7 +56,7 @@ class Person:
 
 class Window:
     WORK_BOOK = None
-    FIND_VALUE = 'bbbbblllaaaa'
+    FIND_VALUE = ''
 
     @staticmethod
     def load_button():
@@ -200,17 +200,15 @@ class Window:
         se_val = search_val.get()  # search value
         array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
         find_value = Window.result_of_search(array1, sheet, col)
-        text_uot = tk.Text(width=60, height=16, )
+        text_uot = tk.Text(width=80, height=16, )
         text_uot.insert(tk.END, Window.print_search_result(find_value))
         text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
 
 
 
 
-
-
 window = tk.Tk()
-window.geometry("750x780")
+window.geometry("920x780")
 window.title("!!! DIPLOM !!!")
 window.grid_columnconfigure(0, weight=1)
 
@@ -267,7 +265,7 @@ create_button.grid(row=30, column= 0, sticky="W", padx=20, pady=10)
 search_label = tk.Label(window, text=" Put the Search name: ", font= ("Helvetica", 13))
 search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
 search_val = tk.Entry(width=60)
-search_val.grid(row=26, column=1, sticky="e", padx=20, pady=10)
+search_val.grid(row=26, column=1, sticky="E", padx=20, pady=10)
 
 
 
