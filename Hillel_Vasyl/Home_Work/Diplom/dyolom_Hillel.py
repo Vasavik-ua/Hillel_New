@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import *
 import openpyxl
 from datetime import date
+from datetime import datetime
+import time
 
 
 class Person:
@@ -60,20 +62,22 @@ class Window:
 
     @staticmethod
     def load_button():
-        Person.NAME.append(text_name.get())
-        Person.SURNAME.append(text_surname.get())
-        Person.SEC_SURNAME.append(text_sec_surname.get())
-        Person.DATE_OF_BIRTH.append(text_birth.get())
-        Person.DATE_OF_DEATH.append(text_death.get())
-        Person.GENDER.append(text_gender.get())
-        Person.AGE.append(Window.check_age(text_birth.get(), text_death.get()))
+        Window.check_inputs()
+        if Window.check_inputs():
+            Person.NAME.append(text_name.get())
+            Person.SURNAME.append(text_surname.get())
+            Person.SEC_SURNAME.append(text_sec_surname.get())
+            Person.DATE_OF_BIRTH.append(text_birth.get())
+            Person.DATE_OF_DEATH.append(text_death.get())
+            Person.GENDER.append(text_gender.get())
+            Person.AGE.append(Window.check_age(text_birth.get(), text_death.get()))
 
-        text_name.delete(0, END)
-        text_surname.delete(0, END)
-        text_sec_surname.delete(0, END)
-        text_birth.delete(0, END)
-        text_death.delete(0, END)
-        text_gender.delete(0, END)
+            text_name.delete(0, END)
+            text_surname.delete(0, END)
+            text_sec_surname.delete(0, END)
+            text_birth.delete(0, END)
+            text_death.delete(0, END)
+            text_gender.delete(0, END)
 
     @staticmethod
     def safe_file_button():
@@ -90,6 +94,90 @@ class Window:
     @staticmethod
     def load_file_button():
         Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
+
+    def check_data(data):
+        year = datetime.now().year
+        sym_val = ''
+        try:
+            for val in data:
+                if not val.isdigit():
+                    sym_val += val
+                    break
+            new_l = data.split(sym_val)
+            if (0 < int(new_l[0]) <= 31) and (12 >= int(new_l[1]) > 0) and (4 >= len(new_l[2]) >= 2):
+                if int(new_l[2]) < year:
+                    new_l[2] = '20' + new_l[2]
+                return new_l
+            else:
+                raise Exception
+
+        except Exception:
+            return False
+
+    def input_str(array):
+        for i in array:
+            if not i.isalpha():
+                return False
+
+        return True
+
+
+    def check_inputs():
+        result_check = True
+        if not Window.input_str(text_name.get()) or not text_name.get():
+            a = 'Input Error'
+            text_nm = tk.Text(width=14, height=1)
+            text_nm.insert(tk.END, a)
+            text_nm.grid(row=2, column=0, sticky="E", padx=20, pady=10)
+            result_check = False
+        if not Window.input_str(text_surname.get()):
+            a = 'Input Error'
+            text_sr = tk.Text(width=14, height=1)
+            text_sr.insert(tk.END, a)
+            text_sr.grid(row=4, column=0, sticky="E", padx=20, pady=10)
+            result_check = False
+        if not Window.input_str(text_sec_surname.get()):
+            a = 'Input Error'
+            text_sc = tk.Text(width=14, height=1)
+            text_sc.insert(tk.END, a)
+            text_sc.grid(row=6, column=0, sticky="E", padx=20, pady=10)
+            result_check = False
+        if not Window.check_data(text_birth.get()) or not text_birth.get():
+            a = 'Input Error'
+            text_uo = tk.Text(width=14, height=1)
+            text_uo.insert(tk.END, a)
+            text_uo.grid(row=8, column=0, sticky="E", padx=20, pady=10)
+            result_check = False
+
+        if text_death.get():
+            date_dt = Window.check_data(text_death.get())
+            if not date_dt:
+                a = 'Input Errore'
+                text_dt = tk.Text(width=14, height=1)
+                text_dt.insert(tk.END, a)
+                text_dt.grid(row=10, column=0, sticky="E", padx=20, pady=10)
+                result_check = False
+        if text_gender.get():
+            if text_gender.get().lower() == 'f':
+                ...
+            elif text_gender.get().lower() == 'm':
+                ...
+            else:
+                a = 'Input Errore'
+                text_ge = tk.Text(width=14, height=1)
+                text_ge.insert(tk.END, a)
+                text_ge.grid(row=12, column=0, sticky="E", padx=20, pady=10)
+                result_check = False
+        else:
+            a = 'Input Errore'
+            text_gek = tk.Text(width=14, height=1)
+            text_gek.insert(tk.END, a)
+            text_gek.grid(row=12, column=0, sticky="E", padx=20, pady=10)
+            result_check = False
+        return result_check
+
+
+
 
     @staticmethod
     def check_age(data, other):  # Insert the date
@@ -266,6 +354,8 @@ search_label = tk.Label(window, text=" Put the Search name: ", font= ("Helvetica
 search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
 search_val = tk.Entry(width=60)
 search_val.grid(row=26, column=1, sticky="E", padx=20, pady=10)
+
+
 
 
 
