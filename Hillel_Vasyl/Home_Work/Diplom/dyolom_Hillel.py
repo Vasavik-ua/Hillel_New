@@ -11,11 +11,13 @@ from ClassPerosn import Person
 class Window:
     WORK_BOOK = None
     FIND_VALUE = ''
+    ERRORS_VALUE = []
 
     @staticmethod
     def load_button():
-        Window.check_inputs()
-        if Window.check_inputs():
+        if not Window.check_inputs():
+            tkinter.messagebox.showwarning(title='Error', message=f'{Window.print_errors(Window.ERRORS_VALUE)}')
+        else:
             Person.NAME.append(text_name.get())
             Person.SURNAME.append(text_surname.get())
             Person.SEC_SURNAME.append(text_sec_surname.get())
@@ -80,37 +82,21 @@ class Window:
     def check_inputs():
         result_check = True
         if not Window.input_str(text_name.get()) or not text_name.get():
-            a = 'Input Error'
-            text_nm = tk.Text(width=14, height=1)
-            text_nm.insert(tk.END, a)
-            #text_nm.grid(row=2, column=0, sticky="E", padx=20, pady=10)
+            Window.ERRORS_VALUE.append('Error Name Input')
             result_check = False
         if not Window.input_str(text_surname.get()):
-            a = 'Input Error'
-            text_sr = tk.Text(width=14, height=1)
-            text_sr.insert(tk.END, a)
-            #text_sr.grid(row=4, column=0, sticky="E", padx=20, pady=10)
+            Window.ERRORS_VALUE.append('Error Surname Input')
             result_check = False
         if not Window.input_str(text_sec_surname.get()):
-            a = 'Input Error'
-            text_sc = tk.Text(width=14, height=1)
-            text_sc.insert(tk.END, a)
-            #text_sc.grid(row=6, column=0, sticky="E", padx=20, pady=10)
+            Window.ERRORS_VALUE.append('Error Second Name Input')
             result_check = False
         if not Window.check_data(text_birth.get()) or not text_birth.get():
-            a = 'Input Error'
-            text_uo = tk.Text(width=14, height=1)
-            text_uo.insert(tk.END, a)
-            #text_uo.grid(row=8, column=0, sticky="E", padx=20, pady=10)
+            Window.ERRORS_VALUE.append('Error Data of Birth Input')
             result_check = False
-
         if text_death.get():
             date_dt = Window.check_data(text_death.get())
             if not date_dt:
-                a = 'Input Errore'
-                text_dt = tk.Text(width=14, height=1)
-                text_dt.insert(tk.END, a)
-                #text_dt.grid(row=10, column=0, sticky="E", padx=20, pady=10)
+                Window.ERRORS_VALUE.append('Error Data of Dead Input')
                 result_check = False
         if text_gender.get():
             if text_gender.get().lower() == 'f':
@@ -118,21 +104,18 @@ class Window:
             elif text_gender.get().lower() == 'm':
                 ...
             else:
-                a = 'Input Errore'
-                text_ge = tk.Text(width=14, height=1)
-                text_ge.insert(tk.END, a)
-               # text_ge.grid(row=12, column=0, sticky="E", padx=20, pady=10)
+                Window.ERRORS_VALUE.append('Error Title Input')
                 result_check = False
         else:
-            a = 'Input Errore'
-            text_gek = tk.Text(width=14, height=1)
-            text_gek.insert(tk.END, a)
-            #text_gek.grid(row=12, column=0, sticky="E", padx=20, pady=10)
+            Window.ERRORS_VALUE.append('Error Title Input')
             result_check = False
         return result_check
 
-
-
+    def print_errors(errors):
+        gg_val = ''
+        for item in errors:
+            gg_val = gg_val + ''.join(map(str, item)) + '\n'
+        return gg_val
 
     @staticmethod
     def check_age(data, other):  # Insert the date
@@ -243,7 +226,7 @@ class Window:
         se_val = search_val.get()  # search value
         array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
         find_value = Window.result_of_search(array1, sheet, col)
-        text_uot = tk.Text(width=80, height=16, )
+        text_uot = tkinter.Text(search_label_frame, width=80, height=16, )
         text_uot.insert(tk.END, Window.print_search_result(find_value))
         text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
 
@@ -294,7 +277,7 @@ text_death.grid(row=10, column=1, sticky="E", padx=20, pady=10)
 
 gender_label = tkinter.Label(welcome_label_frame, text=" Put the Title: ", font= ("Helvetica", 13))
 gender_label.grid(row=12, column=0, stick="W", padx=20, pady=10)
-text_gender = ttk.Combobox(welcome_label_frame, values=['', 'f', 'm'], width=57, )
+text_gender = tkinter.Entry(welcome_label_frame, width=60, )
 text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
 
@@ -318,8 +301,5 @@ search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
 search_val = tkinter.Entry(search_label_frame, width=60)
 search_val.grid(row=26, column=1, sticky="E", padx=20, pady=10)
 
-
-
 if __name__ == "__main__":
     window.mainloop()
-
