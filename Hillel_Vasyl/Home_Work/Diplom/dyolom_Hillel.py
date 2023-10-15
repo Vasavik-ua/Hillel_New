@@ -42,8 +42,11 @@ class Window:
             pass
 
     def create_file():
-        Window.WORK_BOOK = openpyxl.Workbook()  # Create new file.
-        Window.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
+        if Window.WORK_BOOK != None:
+            tkinter.messagebox.showwarning(title='Error.', message='File already exist.')
+        else:
+            Window.WORK_BOOK = openpyxl.Workbook()  # Create new file.
+            Window.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
 
     def load_file_button():
         try:
