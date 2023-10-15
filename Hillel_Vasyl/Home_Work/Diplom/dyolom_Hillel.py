@@ -1,11 +1,10 @@
-import tkinter as tk
 from tkinter import *
-from tkinter import ttk
 import tkinter
 import openpyxl
 from datetime import date
 from datetime import datetime
 from ClassPerosn import Person
+from tkinter import messagebox
 
 
 class Window:
@@ -50,7 +49,10 @@ class Window:
 
     @staticmethod
     def load_file_button():
-        Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
+        try:
+            Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
+        except FileNotFoundError:
+            tkinter.messagebox.showwarning(title='Error', message='File not found. Please create file.')
 
     def check_data(data):
         year = datetime.now().year
@@ -220,15 +222,19 @@ class Window:
 
     @staticmethod
     def search_button():
-        sheet = Window.WORK_BOOK['Diplom Work']
-        rows = (sheet.max_row - 1)
-        col = sheet.max_column
-        se_val = search_val.get()  # search value
-        array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
-        find_value = Window.result_of_search(array1, sheet, col)
-        text_uot = tkinter.Text(search_label_frame, width=80, height=16, )
-        text_uot.insert(tk.END, Window.print_search_result(find_value))
-        text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
+        try:
+            sheet = Window.WORK_BOOK['Diplom Work']
+            rows = (sheet.max_row - 1)
+            col = sheet.max_column
+            se_val = search_val.get()  # search value
+            array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
+            find_value = Window.result_of_search(array1, sheet, col)
+            text_uot = tkinter.Text(search_label_frame, width=80, height=16, )
+            text_uot.insert(tkinter.END, Window.print_search_result(find_value))
+            text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
+        except TypeError:
+            tkinter.messagebox.showwarning(title='Error', message='No source file finded.')
+
 
 
 
