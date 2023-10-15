@@ -12,7 +12,6 @@ class Window:
     FIND_VALUE = ''
     ERRORS_VALUE = []
 
-    @staticmethod
     def load_button():
         if not Window.check_inputs():
             tkinter.messagebox.showwarning(title='Error', message=f'{Window.print_errors(Window.ERRORS_VALUE)}')
@@ -32,7 +31,6 @@ class Window:
             text_death.delete(0, END)
             text_gender.delete(0, END)
 
-    @staticmethod
     def safe_file_button():
         try:
             sheet = Window.WORK_BOOK['Diplom Work']
@@ -42,18 +40,17 @@ class Window:
         except Exception:
             pass
 
-    @staticmethod
     def create_file():
         Window.WORK_BOOK = openpyxl.Workbook()  # Create new file.
         Window.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
 
-    @staticmethod
     def load_file_button():
         try:
             Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
         except FileNotFoundError:
             tkinter.messagebox.showwarning(title='Error', message='File not found. Please create file.')
 
+    @staticmethod
     def check_data(data):
         year = datetime.now().year
         sym_val = ''
@@ -73,13 +70,13 @@ class Window:
         except Exception:
             return False
 
+    @staticmethod
     def input_str(array):
         for i in array:
             if not i.isalpha():
                 return False
 
         return True
-
 
     def check_inputs():
         result_check = True
@@ -113,6 +110,7 @@ class Window:
             result_check = False
         return result_check
 
+    @staticmethod
     def print_errors(errors):
         gg_val = ''
         for item in errors:
@@ -160,7 +158,6 @@ class Window:
                     age -= 1
             return age
 
-
     @staticmethod
     def search_row(rows, col, sheet, val):
         array1 = []
@@ -193,7 +190,7 @@ class Window:
         return result_qty(t)
 
     @staticmethod
-    def print_search_result(find_value):
+    def print_search_result(find_value, age_func):
         ret_val = []
         gg_val = ''
         for i in find_value:
@@ -204,7 +201,7 @@ class Window:
             if not i[2] == None:
                 final_print.append(f'{i[2].title()} ')
             final_print.append(f'{i[6]} ')
-            final_print.append(f'{Window.age_word(str(i[6]))}, ')
+            final_print.append(f'{age_func(str(i[6]))}, ')
             if ((i[5]).lower()) == 'm' and (not i[4] == None):
                 final_print.append(f'чоловік. Народився {i[3]}. Помер {i[4]}.')
             elif ((i[5]).lower()) == 'm' and i[4] == None:
@@ -220,7 +217,6 @@ class Window:
             gg_val = gg_val + ''.join(map(str, item)) + '\n'
         return gg_val
 
-    @staticmethod
     def search_button():
         try:
             sheet = Window.WORK_BOOK['Diplom Work']
@@ -230,13 +226,10 @@ class Window:
             array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
             find_value = Window.result_of_search(array1, sheet, col)
             text_uot = tkinter.Text(search_label_frame, width=80, height=16, )
-            text_uot.insert(tkinter.END, Window.print_search_result(find_value))
+            text_uot.insert(tkinter.END, Window.print_search_result(find_value, Window.age_word))
             text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
         except TypeError:
             tkinter.messagebox.showwarning(title='Error', message='No source file finded.')
-
-
-
 
 
 window = tkinter.Tk()
@@ -256,53 +249,58 @@ search_label_frame = tkinter.LabelFrame(frame, text='Search load Peoples')
 search_label_frame.grid(row=22, column=0, sticky="news", padx=20, pady=10)
 
 
-name_label = tkinter.Label(welcome_label_frame, text=" Put the Name: ", font= ("Helvetica", 13))
+name_label = tkinter.Label(welcome_label_frame, text=" Put the Name: ", font=("Helvetica", 13))
 name_label.grid(row=2, column=0, stick="W", padx=20, pady=10)
 text_name = tkinter.Entry(welcome_label_frame, width=60)
 text_name.grid(row=2, column=1, sticky="E", padx=20, pady=10)
 
-surname_label = tkinter.Label(welcome_label_frame, text=" Put the Surname: ", font= ("Helvetica", 13))
+surname_label = tkinter.Label(welcome_label_frame, text=" Put the Surname: ", font=("Helvetica", 13))
 surname_label.grid(row=4, column=0, stick="W", padx=20, pady=10)
 text_surname = tkinter.Entry(welcome_label_frame, width=60)
 text_surname.grid(row=4, column=1, sticky="E", padx=20, pady=10)
 
-sec_surname_label = tkinter.Label(welcome_label_frame, text=" Put the Second Surname: ", font= ("Helvetica", 13))
+sec_surname_label = tkinter.Label(welcome_label_frame, text=" Put the Second Surname: ", font=("Helvetica", 13))
 sec_surname_label.grid(row=6, column=0, stick="W", padx=20, pady=10)
 text_sec_surname = tkinter.Entry(welcome_label_frame, width=60)
 text_sec_surname.grid(row=6, column=1, sticky="E", padx=20, pady=10)
 
-birth_label = tkinter.Label(welcome_label_frame, text=" Put the Birth date: ", font= ("Helvetica", 13))
+birth_label = tkinter.Label(welcome_label_frame, text=" Put the Birth date: ", font=("Helvetica", 13))
 birth_label.grid(row=8, column=0, stick="W", padx=20, pady=10)
 text_birth = tkinter.Entry(welcome_label_frame, width=60)
 text_birth.grid(row=8, column=1, sticky="E", padx=20, pady=10)
 
-death_label = tkinter.Label(welcome_label_frame, text=" Put the Death date: ", font= ("Helvetica", 13))
+death_label = tkinter.Label(welcome_label_frame, text=" Put the Death date: ", font=("Helvetica", 13))
 death_label.grid(row=10, column=0, stick="W", padx=20, pady=10)
 text_death = tkinter.Entry(welcome_label_frame, width=60)
 text_death.grid(row=10, column=1, sticky="E", padx=20, pady=10)
 
-gender_label = tkinter.Label(welcome_label_frame, text=" Put the Title: ", font= ("Helvetica", 13))
+gender_label = tkinter.Label(welcome_label_frame, text=" Put the Title: ", font=("Helvetica", 13))
 gender_label.grid(row=12, column=0, stick="W", padx=20, pady=10)
 text_gender = tkinter.Entry(welcome_label_frame, width=60, )
 text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
 
-create_button = tkinter.Button(button_label_frame, text="Create File", command=Window.create_file, font= ("Helvetica", 13))
+create_button = tkinter.Button(button_label_frame, text="Create File",
+                               command=Window.create_file, font=("Helvetica", 13))
 create_button.grid(row=20, column=0, sticky="W", padx=40, pady=10)
 
-load_people_button = tkinter.Button(button_label_frame, text="Load People", command=Window.load_button, font= ("Helvetica", 13))
+load_people_button = tkinter.Button(button_label_frame, text="Load People",
+                                    command=Window.load_button, font=("Helvetica", 13))
 load_people_button.grid(row=20, column=1, sticky="e", padx=40, pady=10)
 
-safe_button = tkinter.Button(button_label_frame, text="Safe File", command=Window.safe_file_button, font= ("Helvetica", 13))
+safe_button = tkinter.Button(button_label_frame, text="Safe File",
+                             command=Window.safe_file_button, font=("Helvetica", 13))
 safe_button.grid(row=20, column=2, sticky="E", padx=40, pady=10)
 
-load_button = tkinter.Button(button_label_frame, text="Load File", command=Window.load_file_button, font= ("Helvetica", 13))
-load_button.grid(row=20, column= 3, sticky="E", padx=40, pady=10)
+load_button = tkinter.Button(button_label_frame, text="Load File",
+                             command=Window.load_file_button, font=("Helvetica", 13))
+load_button.grid(row=20, column=3, sticky="E", padx=40, pady=10)
 
-create_button = tkinter.Button(search_label_frame, text="Search People", command=Window.search_button, font= ("Helvetica", 13))
-create_button.grid(row=30, column= 0, sticky="W", padx=20, pady=10)
+create_button = tkinter.Button(search_label_frame, text="Search People",
+                               command=Window.search_button, font=("Helvetica", 13))
+create_button.grid(row=30, column=0, sticky="W", padx=20, pady=10)
 
-search_label = tkinter.Label(search_label_frame, text=" Put the Search name: ", font= ("Helvetica", 13))
+search_label = tkinter.Label(search_label_frame, text=" Put the Search name: ", font=("Helvetica", 13))
 search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
 search_val = tkinter.Entry(search_label_frame, width=60)
 search_val.grid(row=26, column=1, sticky="E", padx=20, pady=10)
