@@ -5,8 +5,8 @@ import tkinter
 import openpyxl
 from datetime import date
 from datetime import datetime
-from support0 import Person
-from support11 import Window
+from ClassPerosn import Person
+
 
 class Window:
     WORK_BOOK = None
