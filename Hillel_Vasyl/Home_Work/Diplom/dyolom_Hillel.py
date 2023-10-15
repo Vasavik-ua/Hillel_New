@@ -1,60 +1,12 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
+import tkinter
 import openpyxl
 from datetime import date
 from datetime import datetime
-import time
-
-
-class Person:
-    NAME = []
-    SURNAME = []
-    SEC_SURNAME = []
-    DATE_OF_BIRTH = []
-    DATE_OF_DEATH = []
-    GENDER = []
-    AGE = []
-    INIT_TABLE = ['NAME', 'SURNAME', 'SEC_SURNAME',
-                  'DATE_OF_BIRTH', 'DATE_OF_DEATH',
-                  'GENDER', 'AGE']
-
-    @classmethod
-    def init_table(cls, shee):
-        for row_id, value in enumerate(cls.INIT_TABLE):
-            cell = shee.cell(row=1, column=row_id + 1)
-            cell.value = value
-
-    @staticmethod
-    def table_crea(shee):
-        rows = shee.max_row
-        for item, value in enumerate(Person.NAME):
-            cell = shee.cell(row=(rows + item + 1), column=1)
-            cell.value = value
-
-        for item, value in enumerate(Person.SURNAME):
-            cell = shee.cell(row=(rows + item + 1), column=2)
-            cell.value = value
-
-        for item, value in enumerate(Person.SEC_SURNAME):
-            cell = shee.cell(row=(rows + item + 1), column=3)
-            cell.value = value
-
-        for item, value in enumerate(Person.DATE_OF_BIRTH):
-            cell = shee.cell(row=(rows + item + 1), column=4)
-            cell.value = value
-
-        for item, value in enumerate(Person.DATE_OF_DEATH):
-            cell = shee.cell(row=(rows + item + 1), column=5)
-            cell.value = value
-
-        for item, value in enumerate(Person.GENDER):
-            cell = shee.cell(row=(rows + item + 1), column=6)
-            cell.value = value
-
-        for item, value in enumerate(Person.AGE):
-            cell = shee.cell(row=(rows + item + 1), column=7)
-            cell.value = value
-
+from support0 import Person
+from support11 import Window
 
 class Window:
     WORK_BOOK = None
@@ -81,10 +33,13 @@ class Window:
 
     @staticmethod
     def safe_file_button():
-        sheet = Window.WORK_BOOK['Diplom Work']
-        Person.init_table(sheet)
-        Person.table_crea(sheet)
-        Window.WORK_BOOK.save('DiploM.xlsx')  # Save new file.
+        try:
+            sheet = Window.WORK_BOOK['Diplom Work']
+            Person.init_table(sheet)
+            Person.table_crea(sheet)
+            Window.WORK_BOOK.save('DiploM.xlsx')  # Save new file.
+        except Exception:
+            pass
 
     @staticmethod
     def create_file():
@@ -128,25 +83,25 @@ class Window:
             a = 'Input Error'
             text_nm = tk.Text(width=14, height=1)
             text_nm.insert(tk.END, a)
-            text_nm.grid(row=2, column=0, sticky="E", padx=20, pady=10)
+            #text_nm.grid(row=2, column=0, sticky="E", padx=20, pady=10)
             result_check = False
         if not Window.input_str(text_surname.get()):
             a = 'Input Error'
             text_sr = tk.Text(width=14, height=1)
             text_sr.insert(tk.END, a)
-            text_sr.grid(row=4, column=0, sticky="E", padx=20, pady=10)
+            #text_sr.grid(row=4, column=0, sticky="E", padx=20, pady=10)
             result_check = False
         if not Window.input_str(text_sec_surname.get()):
             a = 'Input Error'
             text_sc = tk.Text(width=14, height=1)
             text_sc.insert(tk.END, a)
-            text_sc.grid(row=6, column=0, sticky="E", padx=20, pady=10)
+            #text_sc.grid(row=6, column=0, sticky="E", padx=20, pady=10)
             result_check = False
         if not Window.check_data(text_birth.get()) or not text_birth.get():
             a = 'Input Error'
             text_uo = tk.Text(width=14, height=1)
             text_uo.insert(tk.END, a)
-            text_uo.grid(row=8, column=0, sticky="E", padx=20, pady=10)
+            #text_uo.grid(row=8, column=0, sticky="E", padx=20, pady=10)
             result_check = False
 
         if text_death.get():
@@ -155,7 +110,7 @@ class Window:
                 a = 'Input Errore'
                 text_dt = tk.Text(width=14, height=1)
                 text_dt.insert(tk.END, a)
-                text_dt.grid(row=10, column=0, sticky="E", padx=20, pady=10)
+                #text_dt.grid(row=10, column=0, sticky="E", padx=20, pady=10)
                 result_check = False
         if text_gender.get():
             if text_gender.get().lower() == 'f':
@@ -166,13 +121,13 @@ class Window:
                 a = 'Input Errore'
                 text_ge = tk.Text(width=14, height=1)
                 text_ge.insert(tk.END, a)
-                text_ge.grid(row=12, column=0, sticky="E", padx=20, pady=10)
+               # text_ge.grid(row=12, column=0, sticky="E", padx=20, pady=10)
                 result_check = False
         else:
             a = 'Input Errore'
             text_gek = tk.Text(width=14, height=1)
             text_gek.insert(tk.END, a)
-            text_gek.grid(row=12, column=0, sticky="E", padx=20, pady=10)
+            #text_gek.grid(row=12, column=0, sticky="E", padx=20, pady=10)
             result_check = False
         return result_check
 
@@ -295,69 +250,76 @@ class Window:
 
 
 
-window = tk.Tk()
-window.geometry("920x780")
+window = tkinter.Tk()
 window.title("!!! DIPLOM !!!")
-window.grid_columnconfigure(0, weight=1)
 
-welcome_label = tk.Label(window, text="Register of peoples: ",
-                         font=("Helvetica", 13))
-welcome_label.grid(row=0, column=1, sticky="W", padx=20, pady=10)
+frame = tkinter.Frame(window)
+frame.pack()
 
-name_label = tk.Label(window, text=" Put the Name: ", font= ("Helvetica", 13))
+welcome_label_frame = tkinter.LabelFrame(frame, text='User Information')
+welcome_label_frame.grid(row=0, column=0, sticky="news", padx=20, pady=10)
+
+
+button_label_frame = tkinter.LabelFrame(frame, text='File managing Button')
+button_label_frame.grid(row=14, column=0, sticky="news", padx=20, pady=10)
+
+search_label_frame = tkinter.LabelFrame(frame, text='Search load Peoples')
+search_label_frame.grid(row=22, column=0, sticky="news", padx=20, pady=10)
+
+
+name_label = tkinter.Label(welcome_label_frame, text=" Put the Name: ", font= ("Helvetica", 13))
 name_label.grid(row=2, column=0, stick="W", padx=20, pady=10)
-text_name = tk.Entry(width=60)
+text_name = tkinter.Entry(welcome_label_frame, width=60)
 text_name.grid(row=2, column=1, sticky="E", padx=20, pady=10)
 
-surname_label = tk.Label(window, text=" Put the Surname: ", font= ("Helvetica", 13))
+surname_label = tkinter.Label(welcome_label_frame, text=" Put the Surname: ", font= ("Helvetica", 13))
 surname_label.grid(row=4, column=0, stick="W", padx=20, pady=10)
-text_surname = tk.Entry(width=60)
+text_surname = tkinter.Entry(welcome_label_frame, width=60)
 text_surname.grid(row=4, column=1, sticky="E", padx=20, pady=10)
 
-sec_surname_label = tk.Label(window, text=" Put the Second Surname: ", font= ("Helvetica", 13))
+sec_surname_label = tkinter.Label(welcome_label_frame, text=" Put the Second Surname: ", font= ("Helvetica", 13))
 sec_surname_label.grid(row=6, column=0, stick="W", padx=20, pady=10)
-text_sec_surname = tk.Entry(width=60)
+text_sec_surname = tkinter.Entry(welcome_label_frame, width=60)
 text_sec_surname.grid(row=6, column=1, sticky="E", padx=20, pady=10)
 
-birth_label = tk.Label(window, text=" Put the Birth date: ", font= ("Helvetica", 13))
+birth_label = tkinter.Label(welcome_label_frame, text=" Put the Birth date: ", font= ("Helvetica", 13))
 birth_label.grid(row=8, column=0, stick="W", padx=20, pady=10)
-text_birth = tk.Entry(width=60)
+text_birth = tkinter.Entry(welcome_label_frame, width=60)
 text_birth.grid(row=8, column=1, sticky="E", padx=20, pady=10)
 
-death_label = tk.Label(window, text=" Put the Death date: ", font= ("Helvetica", 13))
+death_label = tkinter.Label(welcome_label_frame, text=" Put the Death date: ", font= ("Helvetica", 13))
 death_label.grid(row=10, column=0, stick="W", padx=20, pady=10)
-text_death = tk.Entry(width=60)
+text_death = tkinter.Entry(welcome_label_frame, width=60)
 text_death.grid(row=10, column=1, sticky="E", padx=20, pady=10)
 
-gender_label = tk.Label(window, text=" Put the Gender: ", font= ("Helvetica", 13))
+gender_label = tkinter.Label(welcome_label_frame, text=" Put the Title: ", font= ("Helvetica", 13))
 gender_label.grid(row=12, column=0, stick="W", padx=20, pady=10)
-text_gender = tk.Entry(width=60)
+text_gender = ttk.Combobox(welcome_label_frame, values=['', 'f', 'm'], width=57, )
 text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
 
-create_button = tk.Button(text="Create File", command=Window.create_file, font= ("Helvetica", 13))
-create_button.grid(row=20, column= 1, sticky="W", padx=90, pady=10)
+create_button = tkinter.Button(button_label_frame, text="Create File", command=Window.create_file, font= ("Helvetica", 13))
+create_button.grid(row=20, column=0, sticky="W", padx=40, pady=10)
 
-create_button = tk.Button(text="Load People", command=Window.load_button, font= ("Helvetica", 13))
-create_button.grid(row=20, column= 1, sticky="W", padx=200, pady=10)
+load_people_button = tkinter.Button(button_label_frame, text="Load People", command=Window.load_button, font= ("Helvetica", 13))
+load_people_button.grid(row=20, column=1, sticky="e", padx=40, pady=10)
 
-create_button = tk.Button(text="Safe File", command=Window.safe_file_button, font= ("Helvetica", 13))
-create_button.grid(row=20, column= 1, sticky="E", padx=110, pady=10)
+safe_button = tkinter.Button(button_label_frame, text="Safe File", command=Window.safe_file_button, font= ("Helvetica", 13))
+safe_button.grid(row=20, column=2, sticky="E", padx=40, pady=10)
 
-create_button = tk.Button(text="Load File", command=Window.load_file_button, font= ("Helvetica", 13))
-create_button.grid(row=20, column= 1, sticky="E", padx=20, pady=10)
+load_button = tkinter.Button(button_label_frame, text="Load File", command=Window.load_file_button, font= ("Helvetica", 13))
+load_button.grid(row=20, column= 3, sticky="E", padx=40, pady=10)
 
-create_button = tk.Button(text="Search People", command=Window.search_button, font= ("Helvetica", 13))
+create_button = tkinter.Button(search_label_frame, text="Search People", command=Window.search_button, font= ("Helvetica", 13))
 create_button.grid(row=30, column= 0, sticky="W", padx=20, pady=10)
 
-search_label = tk.Label(window, text=" Put the Search name: ", font= ("Helvetica", 13))
+search_label = tkinter.Label(search_label_frame, text=" Put the Search name: ", font= ("Helvetica", 13))
 search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
-search_val = tk.Entry(width=60)
+search_val = tkinter.Entry(search_label_frame, width=60)
 search_val.grid(row=26, column=1, sticky="E", padx=20, pady=10)
-
-
 
 
 
 if __name__ == "__main__":
     window.mainloop()
+
