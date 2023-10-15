@@ -62,9 +62,9 @@ class Window:
             se_val = search_val.get()  # search value
             array1 = sorted(set(Person.search_row(rows, 3, sheet, se_val)))
             find_value = Person.result_of_search(array1, sheet, col)
-            text_uot = tkinter.Text(search_label_frame, width=100, height=16, )
+            text_uot = tkinter.Text(search_label_frame, width=50, height=10, )
             text_uot.insert(tkinter.END, Person.print_search_result(find_value, Person.age_word))
-            text_uot.grid(row=40, column=1, sticky="news", padx=20, pady=10)
+            text_uot.grid(row=40, column=1, sticky="e", padx=20, pady=10)
         except TypeError:
             tkinter.messagebox.showwarning(title='Error', message='No source file finded.')
 
