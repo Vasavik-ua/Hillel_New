@@ -134,6 +134,8 @@ class Window:
                     sym_val += val
                     break
             new_l = data.split(sym_val)
+            if len(new_l[2]) == 2:
+                new_l[2] = '20' + new_l[2]
             age = int(dat_new[2]) - int(new_l[2])
             if int(dat_new[1]) <= int(new_l[1]):
                 if int(dat_new[0]) < int(new_l[0]):
@@ -146,12 +148,16 @@ class Window:
                     sym_v += val
                     break
             dat_new = other.split(sym_v)
+            if len(dat_new[2]) == 2:
+                dat_new[2] = '20' + dat_new[2]
             sym_val = ''
             for val in data:
                 if not val.isdigit():
                     sym_val += val
                     break
             new_l = data.split(sym_val)
+            if len(new_l[2]) == 2:
+                new_l[2] = '20' + new_l[2]
             age = int(dat_new[2]) - int(new_l[2])
             if int(dat_new[1]) <= int(new_l[1]):
                 if int(dat_new[0]) < int(new_l[0]):
@@ -225,9 +231,9 @@ class Window:
             se_val = search_val.get()  # search value
             array1 = sorted(set(Window.search_row(rows, 3, sheet, se_val)))
             find_value = Window.result_of_search(array1, sheet, col)
-            text_uot = tkinter.Text(search_label_frame, width=80, height=16, )
+            text_uot = tkinter.Text(search_label_frame, width=100, height=16, )
             text_uot.insert(tkinter.END, Window.print_search_result(find_value, Window.age_word))
-            text_uot.grid(row=40, column=1, sticky="E", padx=20, pady=10)
+            text_uot.grid(row=40, column=1, sticky="news", padx=20, pady=10)
         except TypeError:
             tkinter.messagebox.showwarning(title='Error', message='No source file finded.')
 
