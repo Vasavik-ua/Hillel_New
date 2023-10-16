@@ -123,18 +123,8 @@ class Person:
 
     @staticmethod
     def age_generator(data, other):  # Insert the date
-        sym_v = ''
-        for val in other:
-            if not val.isdigit():
-                sym_v += val
-                break
-        dat_new = other.split(sym_v)
-        sym_val = ''
-        for val in data:
-            if not val.isdigit():
-                sym_val += val
-                break
-        new_l = data.split(sym_val)
+        dat_new = Person.data_split(other)
+        new_l = Person.data_split(data)
         if len(new_l[2]) == 2:
             new_l[2] = '20' + new_l[2]
         age = int(dat_new[2]) - int(new_l[2])
@@ -144,6 +134,16 @@ class Person:
             if int(dat_new[0]) < int(new_l[0]):
                 age -= 1
         return age
+
+    @staticmethod
+    def data_split(values):
+        sym_v = ''
+        for val in values:
+            if not val.isdigit():
+                sym_v += val
+                break
+        dat_new = values.split(sym_v)
+        return dat_new
 
     @staticmethod
     def print_errors(errors):
