@@ -10,10 +10,11 @@ class Window:
     FIND_VALUE = ''
     ERRORS_VALUE = []
 
-    def load_button():
-        if not Window.check_inputs():
-            tkinter.messagebox.showwarning(title='Error', message=f'{Person.print_errors(Window.ERRORS_VALUE)}')
-            Window.ERRORS_VALUE.clear()
+    @classmethod
+    def load_button(cls):
+        if not cls.check_inputs():
+            tkinter.messagebox.showwarning(title='Error', message=f'{Person.print_errors(cls.ERRORS_VALUE)}')
+            cls.ERRORS_VALUE.clear()
         else:
             Person.NAME.append(text_name.get())
             Person.SURNAME.append(text_surname.get())
@@ -30,33 +31,45 @@ class Window:
             text_death.delete(0, END)
             text_gender.delete(0, END)
 
-    def safe_file_button():
+    @classmethod
+    def safe_file_button(cls):
         try:
-            sheet = Window.WORK_BOOK['Diplom Work']
+            sheet = cls.WORK_BOOK['Diplom Work']
             Person.init_table(sheet)
             Person.table_crea(sheet)
-            Window.WORK_BOOK.save('DiploM.xlsx')  # Save new file.
+            cls.WORK_BOOK.save('DiploM.xlsx')  # Save new file.
+
+            Person.NAME.clear()
+            Person.SURNAME.clear()
+            Person.SEC_SURNAME.clear()
+            Person.DATE_OF_BIRTH.clear()
+            Person.DATE_OF_DEATH.clear()
+            Person.GENDER.clear()
+            Person.AGE.clear()
         except TypeError:
             tkinter.messagebox.showwarning(title='Error',
                                            message='File not Found.Perhaps file not created.')
             pass
 
-    def create_file():
-        if Window.WORK_BOOK != None:
+    @classmethod
+    def create_file(cls):
+        if cls.WORK_BOOK != None:
             tkinter.messagebox.showwarning(title='Error.', message='File already exist.')
         else:
-            Window.WORK_BOOK = openpyxl.Workbook()  # Create new file.
-            Window.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
+            cls.WORK_BOOK = openpyxl.Workbook()  # Create new file.
+            cls.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
 
-    def load_file_button():
+    @classmethod
+    def load_file_button(cls):
         try:
-            Window.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
+            cls.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
         except FileNotFoundError:
             tkinter.messagebox.showwarning(title='Error', message='File not found. Please create file.')
 
-    def search_button():
+    @classmethod
+    def search_button(cls):
         try:
-            sheet = Window.WORK_BOOK['Diplom Work']
+            sheet = cls.WORK_BOOK['Diplom Work']
             rows = (sheet.max_row - 1)
             col = sheet.max_column
             se_val = search_val.get()  # search value
@@ -68,24 +81,25 @@ class Window:
         except TypeError:
             tkinter.messagebox.showwarning(title='Error', message='No source file finded.')
 
-    def check_inputs():
+    @classmethod
+    def check_inputs(cls):
         result_check = True
         if not Person.input_str(text_name.get()) or not text_name.get():
-            Window.ERRORS_VALUE.append('Error Name Input')
+            cls.ERRORS_VALUE.append('Error Name Input')
             result_check = False
         if not Person.input_str(text_surname.get()):
-            Window.ERRORS_VALUE.append('Error Surname Input')
+            cls.ERRORS_VALUE.append('Error Surname Input')
             result_check = False
         if not Person.input_str(text_sec_surname.get()):
-            Window.ERRORS_VALUE.append('Error Second Name Input')
+            cls.ERRORS_VALUE.append('Error Second Name Input')
             result_check = False
         if not Person.check_data(text_birth.get()) or not text_birth.get():
-            Window.ERRORS_VALUE.append('Error Data of Birth Input')
+            cls.ERRORS_VALUE.append('Error Data of Birth Input')
             result_check = False
         if text_death.get():
             date_dt = Person.check_data(text_death.get())
             if not date_dt:
-                Window.ERRORS_VALUE.append('Error Data of Dead Input')
+                cls.ERRORS_VALUE.append('Error Data of Dead Input')
                 result_check = False
         if text_gender.get():
             if text_gender.get().lower() == 'f':
@@ -93,10 +107,10 @@ class Window:
             elif text_gender.get().lower() == 'm':
                 ...
             else:
-                Window.ERRORS_VALUE.append('Error Title Input')
+                cls.ERRORS_VALUE.append('Error Title Input')
                 result_check = False
         else:
-            Window.ERRORS_VALUE.append('Error Title Input')
+            cls.ERRORS_VALUE.append('Error Title Input')
             result_check = False
         return result_check
 

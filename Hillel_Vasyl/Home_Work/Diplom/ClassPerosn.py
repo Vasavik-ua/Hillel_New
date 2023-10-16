@@ -115,47 +115,35 @@ class Person:
         if other == '':
             dat = date.today()
             dat_t = dat.strftime("%d/%m/%Y")
-            sym_v = ''
-            for val in dat_t:
-                if not val.isdigit():
-                    sym_v += val
-                    break
-            dat_new = dat_t.split(sym_v)
-            sym_val = ''
-            for val in data:
-                if not val.isdigit():
-                    sym_val += val
-                    break
-            new_l = data.split(sym_val)
-            if len(new_l[2]) == 2:
-                new_l[2] = '20' + new_l[2]
-            age = int(dat_new[2]) - int(new_l[2])
-            if int(dat_new[1]) <= int(new_l[1]):
-                if int(dat_new[0]) < int(new_l[0]):
-                    age -= 1
+            age = Person.age_generator(data, dat_t)
             return age
         else:
-            sym_v = ''
-            for val in other:
-                if not val.isdigit():
-                    sym_v += val
-                    break
-            dat_new = other.split(sym_v)
-            if len(dat_new[2]) == 2:
-                dat_new[2] = '20' + dat_new[2]
-            sym_val = ''
-            for val in data:
-                if not val.isdigit():
-                    sym_val += val
-                    break
-            new_l = data.split(sym_val)
-            if len(new_l[2]) == 2:
-                new_l[2] = '20' + new_l[2]
-            age = int(dat_new[2]) - int(new_l[2])
-            if int(dat_new[1]) <= int(new_l[1]):
-                if int(dat_new[0]) < int(new_l[0]):
-                    age -= 1
+            age = Person.age_generator(data, other)
             return age
+
+    @staticmethod
+    def age_generator(data, other):  # Insert the date
+        sym_v = ''
+        for val in other:
+            if not val.isdigit():
+                sym_v += val
+                break
+        dat_new = other.split(sym_v)
+        sym_val = ''
+        for val in data:
+            if not val.isdigit():
+                sym_val += val
+                break
+        new_l = data.split(sym_val)
+        if len(new_l[2]) == 2:
+            new_l[2] = '20' + new_l[2]
+        age = int(dat_new[2]) - int(new_l[2])
+        if int(dat_new[1]) < int(new_l[1]):
+            age -= 1
+        elif int(dat_new[1]) == int(new_l[1]):
+            if int(dat_new[0]) < int(new_l[0]):
+                age -= 1
+        return age
 
     @staticmethod
     def print_errors(errors):
@@ -173,6 +161,9 @@ class Person:
 
     @staticmethod
     def check_data(data):
+        days_bas_month = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30,
+                          7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
+                          }
         year = datetime.now().year
         sym_val = ''
         try:
@@ -180,13 +171,19 @@ class Person:
                 if not val.isdigit():
                     sym_val += val
                     break
-            new_l = data.split(sym_val)
-            if (0 < int(new_l[0]) <= 31) and (12 >= int(new_l[1]) > 0) and (4 >= len(new_l[2]) >= 2):
-                if int(new_l[2]) < year:
-                    new_l[2] = '20' + new_l[2]
-                return new_l
+            new_l = data.split(sym_val)  # Data today
+            if year >= int(new_l[2]):
+                if 12 >= int(new_l[1]) > 0:
+                    if int(new_l[2]) % 2 in (0,):
+                        days_bas_month[2] = 29
+                    if 0 < int(new_l[0]) <= days_bas_month[int(new_l[1])]:
+                        return new_l
+                    else:
+                        raise Exception
+                else:
+                    ...
+                    raise Exception
             else:
                 raise Exception
-
         except Exception:
             return False
