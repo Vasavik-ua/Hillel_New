@@ -20,34 +20,34 @@ class Person:
             cell = shee.cell(row=1, column=row_id + 1)
             cell.value = value
 
-    @staticmethod
-    def table_crea(shee):
+    @classmethod
+    def table_crea(cls, shee):
         rows = shee.max_row
-        for item, value in enumerate(Person.NAME):
+        for item, value in enumerate(cls.NAME):
             cell = shee.cell(row=(rows + item + 1), column=1)
             cell.value = value
 
-        for item, value in enumerate(Person.SURNAME):
+        for item, value in enumerate(cls.SURNAME):
             cell = shee.cell(row=(rows + item + 1), column=2)
             cell.value = value
 
-        for item, value in enumerate(Person.SEC_SURNAME):
+        for item, value in enumerate(cls.SEC_SURNAME):
             cell = shee.cell(row=(rows + item + 1), column=3)
             cell.value = value
 
-        for item, value in enumerate(Person.DATE_OF_BIRTH):
+        for item, value in enumerate(cls.DATE_OF_BIRTH):
             cell = shee.cell(row=(rows + item + 1), column=4)
             cell.value = value
 
-        for item, value in enumerate(Person.DATE_OF_DEATH):
+        for item, value in enumerate(cls.DATE_OF_DEATH):
             cell = shee.cell(row=(rows + item + 1), column=5)
             cell.value = value
 
-        for item, value in enumerate(Person.GENDER):
+        for item, value in enumerate(cls.GENDER):
             cell = shee.cell(row=(rows + item + 1), column=6)
             cell.value = value
 
-        for item, value in enumerate(Person.AGE):
+        for item, value in enumerate(cls.AGE):
             cell = shee.cell(row=(rows + item + 1), column=7)
             cell.value = value
 
@@ -128,8 +128,9 @@ class Person:
     def age_generator(data, other):  # Insert the date
         dat_new = Person.data_split(other)
         new_l = Person.data_split(data)
-        if len(new_l[2]) == 2:
+        if len(new_l[2]) == 2 and len(dat_new[2]):
             new_l[2] = '20' + new_l[2]
+            dat_new[2] = '20' + dat_new[2]
         age = int(dat_new[2]) - int(new_l[2])
         if int(dat_new[1]) < int(new_l[1]):
             age -= 1
