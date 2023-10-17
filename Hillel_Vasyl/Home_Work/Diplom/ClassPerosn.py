@@ -80,10 +80,13 @@ class Person:
         return gg_val
 
     @staticmethod
-    def age_word(x):
-        t = x[-1:]
-        result_qty = lambda t: 'рік' if int(t) == 1 else 'роки' if 2 <= int(t) <= 4 else 'років'
-        return result_qty(t)
+    def age_word(val):
+        if len(val) > 1 and (11 <= int(val[-2:]) <= 20):
+            return 'років'
+        else:
+            t = val[-1:]
+            result_qty = lambda t: 'рік' if int(t) == 1 else 'роки' if 2 <= int(t) <= 4 else 'років'
+            return result_qty(t)
 
     @staticmethod
     def result_of_search(val, sheet, col):  # Val:array;
