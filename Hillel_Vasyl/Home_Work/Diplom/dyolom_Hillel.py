@@ -3,12 +3,15 @@ import tkinter
 import openpyxl
 from ClassPerosn import Person
 from tkinter import messagebox
+from tkinter import ttk
 
 
 class Window:
     WORK_BOOK = None
     FIND_VALUE = ''
     ERRORS_VALUE = []
+    LOAD_FILES_N = []
+    SHEET_NAME = 'Diplom Work'
 
     @classmethod
     def load_button(cls):
@@ -34,18 +37,27 @@ class Window:
     @classmethod
     def safe_file_button(cls):
         try:
-            sheet = cls.WORK_BOOK['Diplom Work']
-            Person.init_table(sheet)
-            Person.table_crea(sheet)
-            cls.WORK_BOOK.save('DiploM.xlsx')  # Save new file.
+            if not create_file_name.get():
+                tkinter.messagebox.showwarning(title='Error.', message='Need to input a Name of File.')
+            elif not create_file_name.get()[-4:] == 'xlsx':
+                tkinter.messagebox.showwarning(title='Error.', message='Need to put xlsx extension.')
+            else:
+                Window.LOAD_FILES_N.append(create_file_name.get())
+                print(Window.LOAD_FILES_N)
+                sheet = cls.WORK_BOOK[cls.SHEET_NAME]
+                Person.init_table(sheet)
+                Person.table_crea(sheet)
+                cls.WORK_BOOK.save(create_file_name.get())  # Save new file.
 
-            Person.NAME.clear()
-            Person.SURNAME.clear()
-            Person.SEC_SURNAME.clear()
-            Person.DATE_OF_BIRTH.clear()
-            Person.DATE_OF_DEATH.clear()
-            Person.GENDER.clear()
-            Person.AGE.clear()
+                Person.NAME.clear()
+                Person.SURNAME.clear()
+                Person.SEC_SURNAME.clear()
+                Person.DATE_OF_BIRTH.clear()
+                Person.DATE_OF_DEATH.clear()
+                Person.GENDER.clear()
+                Person.AGE.clear()
+                create_file_name.delete(0, END)
+
         except TypeError:
             tkinter.messagebox.showwarning(title='Error',
                                            message='File not Found.Perhaps file not created.')
@@ -57,13 +69,16 @@ class Window:
             tkinter.messagebox.showwarning(title='Error.', message='File already exist.')
         else:
             cls.WORK_BOOK = openpyxl.Workbook()  # Create new file.
-            cls.WORK_BOOK.create_sheet(title='Diplom Work', index=0)  # Create the Sheet
+            cls.WORK_BOOK.create_sheet(title=cls.SHEET_NAME, index=0)  # Create the Sheet
 
     @classmethod
     def load_file_button(cls):
         try:
-            cls.WORK_BOOK = openpyxl.load_workbook('DiploM.xlsx')  # Open the file.
-        except FileNotFoundError:
+            if not load_file_name.get():
+                raise Exception
+            cls.WORK_BOOK = openpyxl.load_workbook(load_file_name.get())  # Open the file.
+            load_file_name.delete(0, END)
+        except Exception:
             tkinter.messagebox.showwarning(title='Error', message='File not found. Please create file.')
 
     @classmethod
@@ -158,29 +173,40 @@ text_death.grid(row=10, column=1, sticky="E", padx=20, pady=10)
 
 gender_label = tkinter.Label(welcome_label_frame, text=" Put the Title: ", font=("Helvetica", 13))
 gender_label.grid(row=12, column=0, stick="W", padx=20, pady=10)
-text_gender = tkinter.Entry(welcome_label_frame, width=60, )
+text_gender = ttk.Combobox(welcome_label_frame, width=57, values=['F', 'M'])
 text_gender.grid(row=12, column=1, sticky="E", padx=20, pady=10)
 
+create_file_label = tkinter.Label(button_label_frame, text=" Put the Name for create File: ", font=("Helvetica", 13))
+create_file_label.grid(row=14, column=0, stick="W", padx=20, pady=10)
+create_file_name = tkinter.Entry(button_label_frame, width=40)
+create_file_name.grid(row=14, column=1, sticky="E", padx=20, pady=10)
+
+load_file_label = tkinter.Label(button_label_frame, text=" Put the Name for load File: ", font=("Helvetica", 13))
+load_file_label.grid(row=16, column=0, stick="W", padx=20, pady=10)
+load_file_name = ttk.Combobox(button_label_frame, width=40, values=Window.LOAD_FILES_N)
+load_file_name.grid(row=16, column=1, sticky="E", padx=20, pady=10)
 
 create_button = tkinter.Button(button_label_frame, text="Create File",
                                command=Window.create_file, font=("Helvetica", 13))
-create_button.grid(row=20, column=0, sticky="W", padx=40, pady=10)
+create_button.grid(row=14, column=3, sticky="e", padx=10, pady=10)
 
-load_people_button = tkinter.Button(button_label_frame, text="Load People",
+load_people_button = tkinter.Button(welcome_label_frame, text="Load People",
                                     command=Window.load_button, font=("Helvetica", 13))
-load_people_button.grid(row=20, column=1, sticky="e", padx=40, pady=10)
+load_people_button.grid(row=13, column=1, sticky="news", padx=10, pady=10)
 
 safe_button = tkinter.Button(button_label_frame, text="Safe File",
                              command=Window.safe_file_button, font=("Helvetica", 13))
-safe_button.grid(row=20, column=2, sticky="E", padx=40, pady=10)
+safe_button.grid(row=20, column=0, sticky="news", padx=10, pady=10)
+safe_button.grid_rowconfigure(1, weight=1)
+safe_button.grid_columnconfigure(1, weight=1)
 
 load_button = tkinter.Button(button_label_frame, text="Load File",
                              command=Window.load_file_button, font=("Helvetica", 13))
-load_button.grid(row=20, column=3, sticky="E", padx=40, pady=10)
+load_button.grid(row=20, column=1, sticky="news", padx=10, pady=10)
 
 create_button = tkinter.Button(search_label_frame, text="Search People",
                                command=Window.search_button, font=("Helvetica", 13))
-create_button.grid(row=30, column=0, sticky="W", padx=20, pady=10)
+create_button.grid(row=30, column=0, )
 
 search_label = tkinter.Label(search_label_frame, text=" Put the Search name: ", font=("Helvetica", 13))
 search_label.grid(row=26, column=0, stick="W", padx=20, pady=10)
