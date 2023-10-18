@@ -10,14 +10,18 @@ class Window:
     WORK_BOOK = None
     FIND_VALUE = ''
     ERRORS_VALUE = []
-    LOAD_FILES_N = []
     SHEET_NAME = 'Diplom Work'
 
     @classmethod
     def load_button(cls):
         if not cls.check_inputs():
-            tkinter.messagebox.showwarning(title='Error', message=f'{Person.print_errors(cls.ERRORS_VALUE)}')
+            tkinter.messagebox.showwarning(title='Error',
+                                           message=f'{Person.print_errors(cls.ERRORS_VALUE)}')
             cls.ERRORS_VALUE.clear()
+
+        elif int(Person.check_age(text_birth.get(), text_death.get())) < 0:
+            tkinter.messagebox.showwarning(title='Error',
+                                           message='Input data Birth-Death non correct')
         else:
             Person.NAME.append(text_name.get())
             Person.SURNAME.append(text_surname.get())
@@ -42,8 +46,6 @@ class Window:
             elif not create_file_name.get()[-4:] == 'xlsx':
                 tkinter.messagebox.showwarning(title='Error.', message='Need to put xlsx extension.')
             else:
-                Window.LOAD_FILES_N.append(create_file_name.get())
-                print(Window.LOAD_FILES_N)
                 sheet = cls.WORK_BOOK[cls.SHEET_NAME]
                 Person.init_table(sheet)
                 Person.table_crea(sheet)
@@ -79,7 +81,7 @@ class Window:
             cls.WORK_BOOK = openpyxl.load_workbook(load_file_name.get())  # Open the file.
             load_file_name.delete(0, END)
         except Exception:
-            tkinter.messagebox.showwarning(title='Error', message='File not found. Please create file.')
+            tkinter.messagebox.showwarning(title='Error', message='File not found.')
 
     @classmethod
     def search_button(cls):
@@ -110,9 +112,6 @@ class Window:
             result_check = False
         if not Person.check_data(text_birth.get()) or not text_birth.get():
             cls.ERRORS_VALUE.append('Error Data of Birth Input')
-            result_check = False
-        if Person.check_age(text_birth.get(), text_death.get()) < 0:
-            cls.ERRORS_VALUE.append('Error Data of Birth-Death Input')
             result_check = False
         if text_death.get():
             date_dt = Person.check_data(text_death.get())
@@ -186,7 +185,7 @@ create_file_name.grid(row=14, column=1, sticky="E", padx=20, pady=10)
 
 load_file_label = tkinter.Label(button_label_frame, text=" Put the Name for load File: ", font=("Helvetica", 13))
 load_file_label.grid(row=16, column=0, stick="W", padx=20, pady=10)
-load_file_name = ttk.Combobox(button_label_frame, width=40, values=Window.LOAD_FILES_N)
+load_file_name = tkinter.Entry(button_label_frame, width=40)
 load_file_name.grid(row=16, column=1, sticky="E", padx=20, pady=10)
 
 create_button = tkinter.Button(button_label_frame, text="Create File",
