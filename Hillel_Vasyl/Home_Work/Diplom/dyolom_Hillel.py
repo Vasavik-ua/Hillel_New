@@ -23,7 +23,7 @@ class Window:
             tkinter.messagebox.showwarning(title='Error',
                                            message='Input data Birth-Death non correct')
         else:
-            Person.NAME.append(text_name.get())
+            Person.NAME.append(text_name.get())  # Insert all data in to a variables.
             Person.SURNAME.append(text_surname.get())
             Person.SEC_SURNAME.append(text_sec_surname.get())
             Person.DATE_OF_BIRTH.append(text_birth.get())
@@ -31,7 +31,7 @@ class Window:
             Person.GENDER.append(text_gender.get())
             Person.AGE.append(Person.check_age(text_birth.get(), text_death.get()))
 
-            text_name.delete(0, END)
+            text_name.delete(0, END)  # Cleaning of input inputs.
             text_surname.delete(0, END)
             text_sec_surname.delete(0, END)
             text_birth.delete(0, END)
@@ -42,16 +42,18 @@ class Window:
     def safe_file_button(cls):
         try:
             if not create_file_name.get():
-                tkinter.messagebox.showwarning(title='Error.', message='Need to input a Name of File.')
+                tkinter.messagebox.showwarning(title='Error.',
+                                               message='Need to input a Name of File.')
             elif not create_file_name.get()[-4:] == 'xlsx':
-                tkinter.messagebox.showwarning(title='Error.', message='Need to put xlsx extension.')
+                tkinter.messagebox.showwarning(title='Error.',
+                                               message='Need to put xlsx extension.')
             else:
-                sheet = cls.WORK_BOOK[cls.SHEET_NAME]
+                sheet = cls.WORK_BOOK[cls.SHEET_NAME]  # create the new seet and safe the data.
                 Person.init_table(sheet)
                 Person.table_crea(sheet)
                 cls.WORK_BOOK.save(create_file_name.get())  # Save new file.
 
-                Person.NAME.clear()
+                Person.NAME.clear()  # Cleaning of variable for new insert.
                 Person.SURNAME.clear()
                 Person.SEC_SURNAME.clear()
                 Person.DATE_OF_BIRTH.clear()
