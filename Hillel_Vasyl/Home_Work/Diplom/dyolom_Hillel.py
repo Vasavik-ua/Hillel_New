@@ -111,6 +111,9 @@ class Window:
         if not Person.check_data(text_birth.get()) or not text_birth.get():
             cls.ERRORS_VALUE.append('Error Data of Birth Input')
             result_check = False
+        if Person.check_age(text_birth.get(), text_death.get()) < 0:
+            cls.ERRORS_VALUE.append('Error Data of Birth-Death Input')
+            result_check = False
         if text_death.get():
             date_dt = Person.check_data(text_death.get())
             if not date_dt:
