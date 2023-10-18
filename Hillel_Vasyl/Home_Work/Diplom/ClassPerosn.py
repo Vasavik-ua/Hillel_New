@@ -84,9 +84,9 @@ class Person:
         if len(val) > 1 and (11 <= int(val[-2:]) <= 20):
             return 'років'
         else:
-            t = val[-1:]
-            result_qty = lambda t: 'рік' if int(t) == 1 else 'роки' if 2 <= int(t) <= 4 else 'років'
-            return result_qty(t)
+            tex = val[-1:]
+            result_qty = lambda tik: 'рік' if int(tik) == 1 else 'роки' if 2 <= int(tik) <= 4 else 'років'
+            return result_qty(tex)
 
     @staticmethod
     def result_of_search(val, sheet, col):  # Val:array;
