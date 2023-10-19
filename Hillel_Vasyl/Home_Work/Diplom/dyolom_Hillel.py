@@ -22,6 +22,10 @@ class Window:
         elif int(Person.check_age(text_birth.get(), text_death.get())) < 0:
             tkinter.messagebox.showwarning(title='Error',
                                            message='Input data Birth-Death non correct')
+        elif cls.WORK_BOOK == None:
+            tkinter.messagebox.showwarning(title='Error',
+                                           message='Need to create the file.')
+
         else:
             Person.NAME.append(text_name.get())  # Insert all data in to a variables.
             Person.SURNAME.append(text_surname.get())
